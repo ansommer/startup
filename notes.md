@@ -11,7 +11,7 @@
 
 ## Setting up the repository
 
-Yeah writing something here to practice and to edit the notes. Feeling like a brick made of porridge
+(Re)Learned about pushing/pulling/committing etc. with git. Good refresher after 1.5 years of 0 coding
 
 ## AWS
 
