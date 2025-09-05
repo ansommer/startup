@@ -7,6 +7,11 @@
 - [Course instruction](https://github.com/webprogramming260)
 - [Canvas](https://byu.instructure.com)
 - [MDN](https://developer.mozilla.org)
+- [Writing Markdown](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
+
+## Setting up the repository
+
+Yeah writing something here to practice and to edit the notes. Feeling like a brick made of porridge
 
 ## AWS
 
