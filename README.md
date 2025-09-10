@@ -28,7 +28,7 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 ### Elevator pitch
 
-Don't know what to cook? Poor? Limited Ingredients? No problem. Welcome to the College Kitchen Survival Guide. Simply enter the ingredients of your pantry to recieve simple recipe ideas! You can even rate recipes or share them with your friends in your recipe feed, or find some cooking pointers in the tips and tricks section. 
+Don't know what to cook? Poor? Limited Ingredients? No problem. Welcome to the College Kitchen Survival Guide. Simply enter the ingredients of your pantry to recieve simple recipe ideas! You can even rate recipes or share them with your friends in your recipe feed.
 
 ### Design
 
@@ -49,7 +49,7 @@ sequenceDiagram
 - ability to add/delete ingredients
 - ability to generate recepes based on ingredients
 - display of recipes
-- ability to like and share recipies
+- ability to like, rate and share recipies
 
 ### Technologies
 
@@ -59,8 +59,8 @@ I am going to use the required technologies in the following ways.
 - **CSS** - styling and formatting of the pages
 - **React** - displaying login, ingredients list, and recipe options
 - **Service** - backend service for login and logout, displaying recipe options with and API
-- **DB/Login** - stores users, ingredient lists, likes, and shares
-- **WebSocket** - broadcasts as users like or share recipes
+- **DB/Login** - stores users, ingredient lists, likes, ratings, and shares
+- **WebSocket** - broadcasts as users like, rate, or share recipes
 
 ## 🚀 AWS deliverable
 
