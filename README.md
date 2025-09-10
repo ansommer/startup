@@ -1,4 +1,4 @@
-# BetterReads
+# TheCollegeKitchenSurvivalGuide
 
 [My Notes](notes.md)
 
@@ -28,7 +28,7 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 ### Elevator pitch
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Don't know what to cook? Poor? Limited Ingredients? No problem. Welcome to the College Kitchen Survival Guide. Simply enter the ingredients of your pantry to recieve simple recipe ideas! You can even rate recipes or share them with your friends in your recipe feed, or find some cooking pointers in the tips and tricks section. 
 
 ### Design
 
