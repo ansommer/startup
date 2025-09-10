@@ -20,10 +20,10 @@ A brief description of the application here....
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] Proper use of Markdown
+- [x] Proper use of Markdown
 - [x] A concise and compelling elevator pitch
-- [ ] Description of key features
-- [ ] Description of how you will use each technology
+- [x] Description of key features
+- [x] Description of how you will use each technology
 - [x] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references.
 
 ### Elevator pitch
@@ -48,19 +48,19 @@ sequenceDiagram
 - secure login
 - ability to add/delete ingredients
 - ability to generate recepes based on ingredients
-- ability to browse recipes
-- ability to 
+- display of recipes
+- ability to like and share recipies
 
 ### Technologies
 
 I am going to use the required technologies in the following ways.
 
-- **HTML** - Description here
-- **CSS** - Description here
-- **React** - Description here
-- **Service** - Description here
-- **DB/Login** - Description here
-- **WebSocket** - Description here
+- **HTML** - structuring of 3 pages. One for the login, one for the pantry ingredients, and one for recipe browsing
+- **CSS** - styling and formatting of the pages
+- **React** - displaying login, ingredients list, and recipe options
+- **Service** - backend service for login and logout, displaying recipe options with and API
+- **DB/Login** - stores users, ingredient lists, likes, and shares
+- **WebSocket** - broadcasts as users like or share recipes
 
 ## 🚀 AWS deliverable
 
