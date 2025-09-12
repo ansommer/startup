@@ -16,7 +16,9 @@
 ## AWS
 
 My IP address is: 3.80.25.253
+
 My custom domain name is: thecollegekitchensurvivalguide.click
+
 This is where we made an EC2 (Elastic Connection). That basically makes it so I can rent a virtual computer, and manage my website remotely. Instead of like, having my own physical servers. They are in N. Virginia.
 
 ## Caddy
