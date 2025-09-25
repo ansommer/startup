@@ -1,4 +1,4 @@
-# Your startup name here
+# BetterReads
 
 [My Notes](notes.md)
 
