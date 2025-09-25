@@ -59,15 +59,15 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **HTML pages** - I did not complete this part of the deliverable.
-- [ ] **Proper HTML element usage** - I did not complete this part of the deliverable.
-- [ ] **Links** - I did not complete this part of the deliverable.
-- [ ] **Text** - I did not complete this part of the deliverable.
-- [ ] **3rd party API placeholder** - I did not complete this part of the deliverable.
-- [ ] **Images** - I did not complete this part of the deliverable.
-- [ ] **Login placeholder** - I did not complete this part of the deliverable.
-- [ ] **DB data placeholder** - I did not complete this part of the deliverable.
-- [ ] **WebSocket placeholder** - I did not complete this part of the deliverable.
+- [x] **HTML pages** - one homepage, one for the ingredients (pantry), and one for the meal feed.
+- [x] **Proper HTML element usage** - I used body, nav, main, header, and footer
+- [x] **Links** - All pages link between each other
+- [x] **Text** - Text in the descriptions of the recipies on mymealfeed and in other places as needed
+- [x] **3rd party API placeholder** - Mymealfeed will use an API recipes instead of the 2 options I hard coded
+- [x] **Images** - Images in mymealfeed
+- [x] **Login placeholder** - Login with username and password
+- [x] **DB data placeholder** - The list of ingredients, as well as comments made will be stored in a database
+- [x] **WebSocket placeholder** - Ratings of the recipies, comments, and likes
 
 ## 🚀 CSS deliverable
 

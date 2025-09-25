@@ -27,7 +27,7 @@ My website is now secure! Using my key, caddy and let's encrypt. [instruction](h
 
 ## HTML
 
-Not too bad to do. My brain wants to already start solving the 'how' of things, actually code stuff to interact. But I can see how setting it up visually first without that will help me to be better organized.
+Not too bad to do. My brain wants to already start solving the 'how' of things, actually code stuff to interact. But I can see how setting it up visually first without that will help me to be better organized. Hope I did it right because it's still kind of hard to envision what I will actually be able to do in the future and how I will use things.
 
 ## CSS
 
