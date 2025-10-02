@@ -30,13 +30,44 @@
     </header>
 
     <main class="container-fluid bg-secondary text-center">
-      <div id="picture" class="picture-box"><img width="200px" hight="400px" src="cake.jpg" alt="random" /></div>
-      <a href="https://sallysbakingaddiction.com/triple-chocolate-layer-cake/">Chocolate Cake</a>
-      <span>Rating: ★★★☆☆</span>
-      <button type="submit">Share</button>
-      <button type="submit">Comment</button>
-      <button type="submit">Like</button>
-      <p>Best cake ever 🤤 --anonymous</p>
+      <div class="recipe-post card mb-4">
+        <div class="row g-0">
+          <!-- Image + rating -->
+          <div class="col-md-4 text-center p-3">
+            <img src="cake.jpg" class="img-fluid rounded" alt="Recipe Image" />
+            <div class="rating mt-2">
+              ⭐⭐⭐⭐☆ (4/5)
+            </div>
+          </div>
+
+    <!-- Content -->
+      <div class="col-md-8 d-flex flex-column p-3">
+            <h3 class="recipe-title">
+              <a href="https://sallysbakingaddiction.com/triple-chocolate-layer-cake/">Delicious Chocolate Cake</a>
+            </h3>
+            <p class="recipe-description text-muted">
+              A rich and moist chocolate cake perfect for any occasion. Easy to make and loved by everyone!
+            </p>
+
+            <div class="recent-comments mt-auto">
+              <strong>Recent Comments:</strong>
+              <ul class="list-unstyled mb-2">
+                <li>“Loved it! So moist and chocolatey.” – Alex</li>
+                <li>Best cake ever 🤤 --anonymous</li>
+              </ul>
+            </div>
+
+            <!-- Action buttons bottom right -->
+            <div class="d-flex justify-content-end gap-2">
+              <button class="btn btn-outline-primary btn-sm">Like</button>
+              <button class="btn btn-outline-secondary btn-sm">Comment</button>
+              <button class="btn btn-outline-success btn-sm">Share</button>
+            </div>
+          </div>
+        </div>
+    </div>
+
+
 
       <div id="picture" class="picture-box"><img width="200px" hight="200px" src="bread.webp" alt="random" /></div>
       <a href="https://tastesbetterfromscratch.com/bread-recipe/">Homemade Bread</a>

@@ -1,0 +1,41 @@
+.recipe-post {
+  max-width: 900px;       /* optional, keeps posts from being too wide */
+  margin: auto;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #f8f9fa; /* light gray */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.recipe-post img {
+  max-height: 200px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.recipe-title {
+  margin-bottom: 0.5rem;
+  color: #000;
+  text-align: left;
+}
+
+.recipe-title a {
+  color: inherit;        /* use the same color as .recipe-title */
+  text-decoration: none; /* remove the underline */
+}
+
+.recipe-description {
+  font-size: 0.95rem;
+  text-align: left;
+}
+
+.rating {
+  font-size: 1rem;
+  color: #f5a623; /* gold for stars */
+}
+
+.recent-comments {
+  font-size: 0.9rem;
+  color: #333; /* ← change this to make comments easier to see */
+  text-align: left;
+}
