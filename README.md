@@ -75,8 +75,8 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 - [x] **Header, footer, and main content body** - There is a header with the navigation elements, footer with my name and link to github, and the main body content respective to each page, all formatted nicely.
 - [x] **Navigation elements** - In the header you can navigate between the home(login) page, mypantry, and myfeed. (plus if you click on the brand name it will take you to home! I love when pages have that feature)
-- [x] **Responsive to window resizing** - They are flexible to different window sizes
-- [ ] **Application elements** - I made everything with satisfying colors and aligned how it makes sense to me. I'm particularly proud of the myfeed page and the cards I made there
+- [x] **Responsive to window resizing** - They are flexible to different window sizes. Looked good to me.
+- [x] **Application elements** - I made everything with satisfying colors and aligned how it makes sense to me. I'm particularly proud of the myfeed page and the cards I made there
 - [x] **Application text content** - yep
 - [x] **Application images** - Images on the myfeed page
 
