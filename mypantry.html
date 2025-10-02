@@ -30,29 +30,18 @@
       </nav>
     </header>
 
-    <main class="container-fluid bg-secondary text-center">
-      <h2>Ingerdients:</h2> <!-- These are just hard coded for now -->
-        <label>
-          <input type="checkbox" name="ingredient" value="milk">
-          Milk
-        </label>
-        <br>
+    <main class="container-fluid bg-secondary text-left">
+      <h2>Ingredients:</h2> <!-- These are just hard coded for now -->
+        <label><input type="checkbox" name="ingredient" value="milk">Milk</label>
+        <label><input type="checkbox" name="ingredient" value="butter">Butter</label>
+        <label><input type="checkbox" name="ingredient" value="flour">Flour</label>
+        <label><input type="checkbox" name="ingredient" value="cheese">Cheese</label>
+        <label><input type="checkbox" name="ingredient" value="eggs">Eggs</label>
 
-        <label>
-          <input type="checkbox" name="ingredient" value="butter">
-          Butter
-        </label>
-        <br>
-
-        <label>
-          <input type="checkbox" name="ingredient" value="flour">
-          Flour
-        </label>
-        <br>
-
-        <button type="submit">Generate Meal Options</button>
-        <button type="submit">Add Ingredient</button>
-
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-primary">Generate Meal Options</button>
+          <button type="submit" class="btn btn-primary">Add Ingredient</button>
+        </div>
     </main>
 
     <footer class="bg-dark text-white-50">

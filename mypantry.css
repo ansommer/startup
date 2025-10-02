@@ -1,0 +1,4 @@
+.text-left {
+  align-items: flex-start; /* override align-items: center from main.css */
+  justify-content: flex-start; /* vertical: top */
+}
