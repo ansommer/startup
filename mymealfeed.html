@@ -5,23 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My Meal Feed</title>
     <link rel="icon" href="favicon.ico" />
-  </head>
-  <body>
-    <header>
-      <h1>The College Kitchen Survival Guide<sup>&reg;</sup></h1>
+    <link rel="stylesheet" href="main.css" />
+    <link rel="stylesheet" href="mymealfeed.css" />
 
-      <nav>
-        <menu>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="mypantry.html">My Pantry</a></li>
-          <li><a href="mymealfeed.html">My Meal Feed</a></li>
+    <!-- Include bootstrap CSS framework -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
+
+  </head>
+  <body class="bg-dark text-light"> 
+    <header class="container-fluid">
+      <nav class="navbar fixed-top">
+          <a class="navbar-brand" href="index.html">The College Kitchen Survival Guide</a>
+        <menu class="navbar-nav">
+          <li class = "nav-item"><a class = "nav-link" href="index.html">Home</a></li>
+          <li class = "nav-item"><a class = "nav-link" href="mypantry.html">My Pantry</a></li> <!-- was Play -->
+          <li class = "nav-item"><a class = "nav-link" href="mymealfeed.html">My Meal Feed</a></li> <!-- was Scores -->
         </menu>
       </nav>
-
-      <hr />
     </header>
 
-    <main>
+    <main class="container-fluid bg-secondary text-center">
       <div id="picture" class="picture-box"><img width="200px" hight="400px" src="cake.jpg" alt="random" /></div>
       <a href="https://sallysbakingaddiction.com/triple-chocolate-layer-cake/">Chocolate Cake</a>
       <span>Rating: ★★★☆☆</span>
