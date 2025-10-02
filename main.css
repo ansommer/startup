@@ -6,6 +6,7 @@ body {
 
 header {
   flex: 0 80px;
+  background-color: #a93d5b; 
 }
 
 main {
@@ -40,6 +41,12 @@ menu .nav-item {
 
 footer a {
   float: right;
+}
+
+.btn {
+  background-color: #ff7f50; /* your custom color */
+  color: white;              /* text color */
+  border: none;              /* optional: remove border */
 }
 
 @media (max-height: 600px) {
