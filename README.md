@@ -84,9 +84,9 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Bundled using Vite** - I did not complete this part of the deliverable.
-- [ ] **Components** - I did not complete this part of the deliverable.
-- [ ] **Router** - I did not complete this part of the deliverable.
+- [x] **Bundled using Vite** - Success.
+- [x] **Components** - Still a little confused about what the definition of a component would be but I think it would be my app, the items in the mypantry list, and the cards for the recipe feed, as well as the components in the cards (pictures, ratings, etc)
+- [x] **Router** - Routing between the home, mypantry, and mymealfeed
 
 ## 🚀 React part 2: Reactivity deliverable
 
