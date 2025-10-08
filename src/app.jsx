@@ -1,5 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 import './app.css';
 import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
 import { Login } from './login/login';
@@ -11,13 +12,23 @@ export default function App() {
     <BrowserRouter>
       <div className="body bg-dark text-light">
         <header className="container-fluid">
-          <nav className="navbar fixed-top navbar-dark">
+
+          <nav className="navbar navbar-dark navbar-expand-md fixed-top">
+            <div className="container-fluid">
               <NavLink className="navbar-brand" to="/">The College Kitchen Survival Guide</NavLink>
-            <menu className="navbar-nav">
-              <li className = "nav-item"><NavLink className = "nav-link" to="/">Home</NavLink></li>
-              <li className = "nav-item"><NavLink className = "nav-link" to="/mypantry">My Pantry</NavLink></li>
-              <li className = "nav-item"><NavLink className = "nav-link" to="/mymealfeed">My Meal Feed</NavLink></li> 
-            </menu>
+
+              <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span className="navbar-toggler-icon" />
+              </button>
+
+              <div className="collapse navbar-collapse" id="mainNav">
+                <ul className="navbar-nav">
+                  <li className="nav-item"><NavLink className="nav-link" to="/">Home</NavLink></li>
+                  <li className="nav-item"><NavLink className="nav-link" to="/mypantry">My Pantry</NavLink></li>
+                  <li className="nav-item"><NavLink className="nav-link" to="/mymealfeed">My Meal Feed</NavLink></li>
+                </ul>
+              </div>
+            </div>
           </nav>
         </header>
 

@@ -7,7 +7,8 @@
 }
 
 header {
-  flex: 0 80px;
+  /* let the header grow to contain the navbar instead of forcing a fixed height */
+  flex: 0 auto;
   background-color: #a93d5b; 
 }
 
@@ -64,5 +65,61 @@ button.btn:hover {
   }
   main {
     flex: 1 100vh;
+  }
+}
+
+/* Keep navbar inside header (cancel Bootstrap fixed-top) and make it responsive */
+.navbar.fixed-top {
+  position: static !important; /* allow header to contain the navbar */
+  top: auto !important;
+  width: 100%;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+}
+
+menu {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/* On small screens stack nav items and make them tappable */
+@media (max-width: 575.98px) {
+  /* Brand on its own row */
+  .navbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.12rem; /* smaller gap between brand and menu */
+  }
+  .navbar-brand {
+    width: 100%;
+    white-space: normal; /* allow wrapping if needed */
+    overflow: visible;
+    text-overflow: initial;
+    font-size: 1rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  /* Stack nav items underneath the brand as a vertical list */
+  menu {
+    flex-direction: column !important;
+    align-items: stretch;
+    gap: 0.18rem; /* tighter spacing between links */
+    padding: 0.25rem 0; /* reduce vertical padding */
+  }
+  menu .nav-item {
+    width: 100%;
+    padding: 0; /* remove extra padding contributing to space */
+  }
+  .nav-link {
+    display: block;
+    padding: 0.32rem 0.6rem; /* slightly smaller tappable area but still comfortable */
   }
 }
