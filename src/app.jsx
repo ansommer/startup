@@ -12,11 +12,11 @@ export default function App() {
       <div className="body bg-dark text-light">
         <header className="container-fluid">
           <nav className="navbar fixed-top navbar-dark">
-              <NavLink className="navbar-brand" href="index.html">The College Kitchen Survival Guide</NavLink>
+              <NavLink className="navbar-brand" to="/">The College Kitchen Survival Guide</NavLink>
             <menu className="navbar-nav">
-              <li className = "nav-item"><NavLink className = "nav-link" href="index">Home</NavLink></li>
-              <li className = "nav-item"><NavLink className = "nav-link" href="mypantry">My Pantry</NavLink></li>
-              <li className = "nav-item"><NavLink className = "nav-link" href="mymealfeed">My Meal Feed</NavLink></li> 
+              <li className = "nav-item"><NavLink className = "nav-link" to="/">Home</NavLink></li>
+              <li className = "nav-item"><NavLink className = "nav-link" to="/mypantry">My Pantry</NavLink></li>
+              <li className = "nav-item"><NavLink className = "nav-link" to="/mymealfeed">My Meal Feed</NavLink></li> 
             </menu>
           </nav>
         </header>
