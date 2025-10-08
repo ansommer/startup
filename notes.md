@@ -37,7 +37,8 @@ Basic structure of how it works. 1. I build some html 2. If I want the html to b
 
 ## React Part 1: Routing
 
-Setting up Vite and React was pretty simple. I had a bit of trouble because of conflicting CSS. This isn't as straight forward as you would find with Svelte or Vue, but I made it work in the end. If there was a ton of CSS it would be a real problem. It sure was nice to have the code structured in a more usable way.
+Doing it two times with simon and my startup definitely helped me understand this. So basically we were stealing the code from the html and make it work for react.
+Here's the code for deploying because I always get confused ./deployReact.sh -k ../260keyIMPORTANT.pem -h thecollegekitchensurvivalguide.click -s startup
 
 ## React Part 2: Reactivity
 
