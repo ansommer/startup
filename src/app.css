@@ -1,4 +1,6 @@
-body {
+/* originally was main...... */
+
+.body {
   display: flex;
   flex-direction: column;
   min-width: 375px;
