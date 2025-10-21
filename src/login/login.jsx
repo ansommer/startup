@@ -1,21 +1,26 @@
 import React from 'react';
 
-export function Login() {
+import { Unauthenticated } from './unauthenticated';
+import { Authenticated } from './authenticated';
+import { AuthState } from './authState';
+
+export function Login({ userName, authState, onAuthChange }) {
   return (
-    <main className="container-fluid bg-secondary text-center">
-      <h1>Welcome to The College Kitchen Survival Guide!</h1>
-      <form method="get" action="mypantry.html">
-        <div className="input-group mb-3">
-            <input className="form-control" type="text" placeholder="your@email.com" />
-          </div>
-          <div className="input-group mb-3">
-            <input className="form-control" type="password" placeholder="password" />
-          </div>
-          <div className="d-flex justify-content-center gap-2">
-            <button type="submit" className="btn btn-primary">Login</button>
-            <button type="submit" className="btn btn-outline-secondary">Create</button>
-          </div>
-        </form>
+    <main className="container-fluid text-center">
+      <div>
+        {authState !== AuthState.Unknown && <h1>Welcome to The College Kitchen Survival Guide!</h1>}
+        {authState === AuthState.Authenticated && (
+          <Authenticated userName={userName} onLogout={() => onAuthChange(userName, AuthState.Unauthenticated)} />
+        )}
+        {authState === AuthState.Unauthenticated && (
+          <Unauthenticated
+            userName={userName}
+            onLogin={(loginUserName) => {
+              onAuthChange(loginUserName, AuthState.Authenticated);
+            }}
+          />
+        )}
+      </div>
     </main>
   );
 }

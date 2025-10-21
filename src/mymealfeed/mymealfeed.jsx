@@ -3,7 +3,7 @@ import './mymealfeed.css';
 
 export function MyMealFeed() {
   return (
-    <main class="container-fluid bg-secondary text-center">
+    <main class="container-fluid text-center">
       <div class="recipe-post card mb-4">
         <div class="row g-0">
 
