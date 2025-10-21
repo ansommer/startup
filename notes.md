@@ -119,14 +119,14 @@ Modern HTML contains over 100 different elements. Here is a short list of HTML e
 | `.grid`  | `.`    | `class="grid"`       | Can repeat                  | `<div class="grid"></div>`    |
 
 HTML:
-<h1 id="title">Hello</h1>
+<pre> ```html <h1 id="title">Hello</h1> ``` </pre>
 CSS:
 #title {
   color: red;
 }
 HTML:
-<div class="grid">...</div>
-<div class="grid">...</div>
+<pre> ``` <div class="grid">...</div>
+<div class="grid">...</div> ``` </pre>
 CSS:
 .grid {
   display: grid;
