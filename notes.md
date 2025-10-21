@@ -112,7 +112,7 @@ Modern HTML contains over 100 different elements. Here is a short list of HTML e
 
 <details>
   <summary>## Basic CSS things</summary>
-  ![cssDefinitions](https://github.com/user-attachments/assets/ff691ce1-4416-46c3-b873-aa266c803d45)
+  ![cssBox](https://github.com/user-attachments/assets/3842da85-1757-4fae-a08d-bfb78f46b3b5)
   Boxes:
   CSS defines everything as boxes. When you apply styles, you are applying them to a region of the display that is a rectangular box. Within an element's box there are several internal boxes. The innermost box holds the element's content. This is where things like the text or image of an element is displayed. Next comes the padding. The padding will inherit things like the background color. After padding is the border, which has properties like color, thickness and line style. The final box is the margin. The margin is considered external to the actual styling of the box and therefore only represents whitespace. It is important to understand each of these boxes so that you can achieve the desired visual result by applying the proper CSS declaration.
   ![cssBoxModel](https://github.com/user-attachments/assets/e6d6a6db-ec2c-497d-97af-51225dcdd10f)
