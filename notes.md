@@ -160,40 +160,40 @@ CSS:
 <details>
   <summary>##Flex/summary>
   Flexbox and Images – Key Points
-Setting a container to display: flex makes all its direct children (including images) flex items.
-Images are arranged in a row by default (flex-direction: row).
-Spacing between images is controlled by justify-content (e.g., start, center, space-between, space-around).
-Alignment of images along the cross-axis is controlled by align-items (e.g., flex-start, center, flex-end, stretch).
-Image sizing can be controlled with flex-grow, flex-shrink, and flex-basis, allowing images to expand, shrink, or maintain a base size.
-Use max-width: 100% and height: auto to preserve aspect ratio and prevent overflow.
-By default, flex items stay on one line. flex-wrap: wrap allows images to move onto multiple rows when there isn’t enough space.
-Flexbox doesn’t crop images but can stretch them if alignment is set to stretch.
-Combining flex-wrap with flex-basis allows responsive multi-row image layouts.
-
-  header - flex: 0 80px - Zero means it will not grow and 80px means it has a starting basis height of 80 pixels. This creates a fixed size box.
-footer - flex: 0 30px - Like the header it will not grow and has a height of 30 pixels.
-main - flex: 1 - One means it will get one fractional unit of growth, and since it is the only child with a non-zero growth value, it will get all the remaining space. Main also gets some additional properties because we want it to also be a flexbox container for the controls and content area. So we set its display to be flex and specify the flex-direction to be row so that the children are oriented side by side.
-
-justify content:
-flex-start → images hug the start of the container.
-center → images are centered.
-space-around → equal space around each image.
-space-evenly → equal space between and around images.
-
-align content:
-align-items options:
-flex-start → top
-center → middle
-flex-end → bottom
-stretch → images stretch to fill container height (if no height set on images, this might distort them)
-
-sizing:
-flex-grow → allows the image to expand.
-flex-shrink → allows the image to shrink.
-flex-basis → sets the starting width before growing/shrinking.
-```css
-img {
-  flex: 1 1 200px; /* grow=1, shrink=1, start width=200px */
-}
-```
+  Setting a container to display: flex makes all its direct children (including images) flex items.
+  Images are arranged in a row by default (flex-direction: row).
+  Spacing between images is controlled by justify-content (e.g., start, center, space-between, space-around).
+  Alignment of images along the cross-axis is controlled by align-items (e.g., flex-start, center, flex-end, stretch).
+  Image sizing can be controlled with flex-grow, flex-shrink, and flex-basis, allowing images to expand, shrink, or maintain a base size.
+  Use max-width: 100% and height: auto to preserve aspect ratio and prevent overflow.
+  By default, flex items stay on one line. flex-wrap: wrap allows images to move onto multiple rows when there isn’t enough space.
+  Flexbox doesn’t crop images but can stretch them if alignment is set to stretch.
+  Combining flex-wrap with flex-basis allows responsive multi-row image layouts.
+  
+    header - flex: 0 80px - Zero means it will not grow and 80px means it has a starting basis height of 80 pixels. This creates a fixed size box.
+  footer - flex: 0 30px - Like the header it will not grow and has a height of 30 pixels.
+  main - flex: 1 - One means it will get one fractional unit of growth, and since it is the only child with a non-zero growth value, it will get all the remaining space. Main also gets some additional properties because we want it to also be a flexbox container for the controls and content area. So we set its display to be flex and specify the flex-direction to be row so that the children are oriented side by side.
+  
+  justify content:
+  flex-start → images hug the start of the container.
+  center → images are centered.
+  space-around → equal space around each image.
+  space-evenly → equal space between and around images.
+  
+  align content:
+  align-items options:
+  flex-start → top
+  center → middle
+  flex-end → bottom
+  stretch → images stretch to fill container height (if no height set on images, this might distort them)
+  
+  sizing:
+  flex-grow → allows the image to expand.
+  flex-shrink → allows the image to shrink.
+  flex-basis → sets the starting width before growing/shrinking.
+  ```css
+  img {
+    flex: 1 1 200px; /* grow=1, shrink=1, start width=200px */
+  }
+  ```
 </details>
