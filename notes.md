@@ -204,3 +204,28 @@ CSS:
   }
   ```
 </details>
+
+<details>
+  <summary>#Arrow functions</summary>
+  2 examples:
+```JavaScript
+const functionName = (parameters) => expression;
+
+const functionName = (parameters) => {
+  // multiple statements
+  return value;
+};
+```
+  So like these are equivalent:
+```JavaScript
+const a = [1, 2, 3, 4];
+
+// standard function syntax
+a.sort(function (v1, v2) {
+  return v1 - v2;
+});
+
+// arrow function syntax
+a.sort((v1, v2) => v1 - v2);
+```
+</details>
