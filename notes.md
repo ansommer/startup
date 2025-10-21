@@ -144,6 +144,67 @@ OR
   **7. How do you declare the document type to be html?**
   `<!DOCTYPE html>`
 
+  **8. Is it possible to add new properties to javascript objects?**
+  Yes.
+  Ex1: Dot Notation, Ex2: Bracket notation
+  ```javascript
+  const person = {
+    name: "Alice",
+    age: 25
+  };
+  
+  // Add a new property
+  person.isStudent = true;
+  
+  console.log(person);
+  // Output: { name: "Alice", age: 25, isStudent: true }
+
+
+  Ex2
+  const person = {
+    name: "Alice",
+    age: 25
+  };
+  
+  // Add a new property
+  person["city"] = "New York";
+  
+  console.log(person);
+  // Output: { name: "Alice", age: 25, city: "New York" }
+  ```
+
+  **8. If you want to include JavaScript on an HTML page, which tag do you use?**
+  _The JavaScript code goes between the <script> and </script> tags._
+  ```javascript
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <title>My Page</title>
+  </head>
+  <body>
+    <h1>Hello!</h1>
+  
+    <script>
+      console.log("This is JavaScript inside the HTML file");
+    </script>
+  </body>
+  </html>
+
+  OR separate .js file
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <title>My Page</title>
+  </head>
+  <body>
+    <h1>Hello!</h1>
+  
+    <script src="script.js"></script>
+  </body>
+  </html>
+  ```
+
+
 </details>
 
 <details>
@@ -393,8 +454,9 @@ CSS:
 </details>
 
 <details>
-  <summary>## Javascript iteration formatting</summary>
+  <summary>## Javascript  formatting</summary>
 
+  **Iteration**
   ```javascript
   if (condition) {
     // code to run if condition is true
@@ -435,7 +497,68 @@ CSS:
     default:
       console.log("Color not found");
   }
-
-
   ```
+
+  **Creating an object**
+  ```javascript
+  const person = {
+    name: "Alice",
+    age: 25,
+    isStudent: true
+  };
+
+  OR
+
+  const car = new Object();
+  car.make = "Toyota";
+  car.model = "Camry";
+  car.year = 2020;
+
+  OR
+
+  const calculator = {
+    add: function(a, b) {
+      return a + b;
+    },
+    subtract(a, b) {
+      return a - b; // shorthand syntax
+    }
+  };
+  
+  console.log(calculator.add(5, 3)); // 8
+  ```
+</details>
+
+<details>
+  <summary> ## JSON</summary>
+
+  JavaScript Object Notation (JSON) was conceived by Douglas Crockford in 2001 while working at Yahoo! JSON, pronounced like the name Jason, received official standardization in 2013 and 2017 (ECMA-404, [RFC 8259](https://datatracker.ietf.org/doc/html/rfc8259)).
+  
+  JSON provides a simple, and yet effective way, to share and store data. By design JSON is easily convertible to, and from, JavaScript objects. This makes it a very convenient data format when working with web technologies. Because of its simplicity, standardization, and compatibility with JavaScript, JSON has become one of the world's most popular data formats.
+  
+  ### Format
+  
+  A JSON document contains one of the following data types:
+  
+  | Type    | Example                 |
+  | ------- | ----------------------- |
+  | string  | "crockford"             |
+  | number  | 42                      |
+  | boolean | true                    |
+  | array   | [null,42,"crockford"]   |
+  | object  | {"a":1,"b":"crockford"} |
+  | null    | null                    |
+  
+  Most commonly, a JSON document contains an object. Objects contain zero or more key value pairs. The key is always a string, and the value must be one of the valid JSON data types. Key value pairs are delimited with commas. Curly braces delimit an object, square brackets and commas delimit arrays, and strings are always delimited with double quotes.
+
+  Example:
+  ```javascript
+  const jsonString = '{"name":"Alice","age":25}';
+  // Convert JSON string to JavaScript object
+  const obj = JSON.parse(jsonString);
+  console.log(obj.name); // Output: Alice
+  // Convert JavaScript object back to JSON string
+  const newJson = JSON.stringify(obj);
+  ```
+
 </details>
