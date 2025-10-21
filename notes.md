@@ -68,7 +68,8 @@ Handling the toggling of the checkboxes was particularly interesting.
 
 ## Notes for the midterm
 
-## Common elements
+<details>
+  <summary>## Common HTML elements</summary>
 
 Modern HTML contains over 100 different elements. Here is a short list of HTML elements that you will commonly see.
 
@@ -107,3 +108,4 @@ Modern HTML contains over 100 different elements. Here is a short list of HTML e
 | `video`   | Video content                                                          |
 | `svg`     | Scalable vector graphic content                                        |
 | `iframe`  | Inline frame of another HTML page                                      |
+</details> 
