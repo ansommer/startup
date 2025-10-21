@@ -675,7 +675,7 @@ CSS:
   
   Using a Promise:
   `.then()` → runs if the promise is resolved.
-  `.catch() → runs if the promise is rejected.
+  `.catch()` → runs if the promise is rejected.
 
   Example:
   ```javascript
