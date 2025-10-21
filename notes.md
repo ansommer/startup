@@ -173,7 +173,7 @@ OR
   // Output: { name: "Alice", age: 25, city: "New York" }
   ```
 
-  **8. If you want to include JavaScript on an HTML page, which tag do you use?**
+  **9. If you want to include JavaScript on an HTML page, which tag do you use?**
   _The JavaScript code goes between the <script> and </script> tags._
   ```javascript
   <!DOCTYPE html>
@@ -204,7 +204,51 @@ OR
   </html>
   ```
 
+  **10. Which of the following is true for the domain name banana.fruit.bozo.click, which is the top level domain, which is a subdomain, which is a root domain?**
+  # Domain Breakdown: banana.fruit.bozo.click
+  | Part     | Description                                                         |
+  |---------|---------------------------------------------------------------------|
+  | `click`  | **Top-Level Domain (TLD)** – the highest-level domain (like `.com`) |
+  | `bozo`   | **Root / Second-Level Domain** – the main registered domain         |
+  | `fruit`  | **Subdomain** – a subdivision of the root domain                    |
+  | `banana` | **Sub-subdomain** – a further subdivision under `fruit`             |
 
+![domainNameParts](https://github.com/user-attachments/assets/55c6079c-429e-475b-bd10-12113c201f7d)
+
+  **11. Is a web certificate is necessary to use HTTPS.**
+  Yes
+  What a Web Certificate Does:
+  -Encrypts communication
+  -Prevents eavesdroppers from reading sensitive data (like passwords or credit card numbers).
+  -Authenticates the website
+  -Confirms the server’s identity so users know they’re connecting to the legitimate site.
+  -Enables the browser to show the padlock icon
+  -Indicates a secure connection in the address bar.
+  
+  How it Works:
+  -A certificate is issued by a Certificate Authority (CA).
+  -When a browser connects to a website via HTTPS, the server presents the certificate.
+  -The browser verifies the certificate and establishes a secure, encrypted connection.
+
+  **12. Can a DNS A record can point to an IP address or another A record.**
+  # DNS Record Summary: A vs CNAME
+
+  | Record Type | Can it point to an IP? | Can it point to another domain? |
+  |------------|----------------------|--------------------------------|
+  | **A**      | ✅ Yes               | ❌ No                           |
+  | **CNAME**  | ❌ No                | ✅ Yes                          |
+
+  An A record is a straight mapping from a domain name to IP address. A CNAME record maps one domain name to another domain name.
+
+  **13. Port 443, 80, 22 is reserved for which protocol?**
+  # Common Port Numbers and Protocols
+  | Port | Protocol | Description |
+  |------|----------|-------------|
+  | 80   | HTTP     | Standard port for unencrypted web traffic. |
+  | 443  | HTTPS    | Standard port for secure web traffic (HTTP over TLS/SSL). |
+  | 22   | SSH      | Secure Shell, used for secure remote login and file transfer. |
+
+  
 </details>
 
 <details>
@@ -619,4 +663,43 @@ CSS:
   
   Combined: ls -la
   Shows a detailed list of all files, including hidden ones.
+</details>
+
+<details>
+  <summary> ## Promises </summary>
+
+  Creating a Promise:
+  `new Promise((resolve, reject) => { ... })` takes a function with two arguments: `resolve` and `reject`.
+  Call `resolve(value)` when the operation is successful.
+  Call `reject(error)` when the operation fails.
+  
+  Using a Promise:
+  `.then()` → runs if the promise is resolved.
+  `.catch() → runs if the promise is rejected.
+
+  Example:
+  ```javascript
+  const coinToss = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (Math.random() > 0.1) {
+        resolve(Math.random() > 0.5 ? 'heads' : 'tails');
+      } else {
+        reject('fell off table');
+      }
+    }, 10000);
+  });
+  ```
+  
+  We then chain the `then`, `catch` and `finally` functions to the coinToss object in order to handle each of the possible results.
+  
+  ```js
+  coinToss
+    .then((result) => console.log(`Coin toss result: ${result}`))
+    .catch((err) => console.log(`Error: ${err}`))
+    .finally(() => console.log('Toss completed'));
+  
+  // OUTPUT:
+  //    Coin toss result: tails
+  //    Toss completed
+  ```
 </details>
