@@ -69,6 +69,44 @@ Handling the toggling of the checkboxes was particularly interesting.
 ## Notes for the midterm
 
 <details>
+  <summary>## Just straight up some answers</summary>
+
+
+  **1. The default CSS display property value for the HTML <span> element is: inline**
+  <span> is an HTML element used to group or wrap inline content without introducing any structural change to the page.
+  It does not create a new line before or after itself (unlike <div>).
+  Primarily used for styling or applying scripts to a portion of text.
+  Inline elements flow along with the text and do not start on a new line.
+
+  **How would you use CSS to change all the div elements to have a background color of red?**
+  ```css
+  div {
+    background-color: red;
+  }
+  ```
+  ```html
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <style>
+      div {
+        background-color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div>First div</div>
+    <div>Second div</div>
+  </body>
+  </html>
+
+OR
+
+  <link rel="stylesheet" href="styles.css">
+  ```
+</details>
+
+<details>
   <summary>## Common HTML elements</summary>
 
 Modern HTML contains over 100 different elements. Here is a short list of HTML elements that you will commonly see.
@@ -229,4 +267,54 @@ CSS:
   // arrow function syntax
   a.sort((v1, v2) => v1 - v2);
   ```
+</details>
+
+<details>
+  <summary># DOM - Document Object Model</summary>
+
+  # DOM – Key Points
+
+  ## Definition
+  - The DOM (Document Object Model) is a programming interface for web documents.
+  - Represents the page as a **tree of nodes**, where each node is an HTML element, attribute, or text.
+  
+  ## Hierarchy
+  - The DOM is structured like a **tree**.
+  - `document` is the root.
+  - Elements have **parent**, **child**, and **sibling** relationships.
+  
+  ## Accessing Elements
+  - `document.getElementById("id")` → select element by ID
+  - `document.getElementsByClassName("class")` → select elements by class
+  - `document.getElementsByTagName("tag")` → select elements by tag name
+  - `document.querySelector(selector)` → select first element matching a CSS selector
+  - `document.querySelectorAll(selector)` → select all elements matching a CSS selector
+  
+  ## Manipulating Elements
+  - `element.innerHTML` → get/set HTML content
+  - `element.textContent` → get/set plain text content
+  - `element.style` → change CSS styles
+  - `element.classList` → add, remove, or toggle classes
+  
+  ## Creating & Modifying Elements
+  - `document.createElement("tag")` → create a new element
+  - `parent.appendChild(child)` → add child element
+  - `parent.insertBefore(newNode, referenceNode)` → insert before another node
+  - `element.remove()` → remove an element
+  
+  ## Events
+  - Events respond to user actions (click, input, scroll, etc.)
+  - Add event listeners: `element.addEventListener("event", callback)`
+  - Remove event listeners: `element.removeEventListener("event", callback)`
+  
+  ## Important Notes
+  - The DOM is **dynamic**: changes in JavaScript immediately update the page.
+  - The DOM treats everything as **nodes**, including text and comments.
+  - Manipulating the DOM excessively can affect page performance.
+
+![dom](https://github.com/user-attachments/assets/383752a0-1cc8-40e1-bdfa-cd08baf83c42)
+  The Document Object Model (DOM) is an object representation of the HTML elements that the browser uses to render the display. The browser also exposes the DOM to external code so that you can write programs that dynamically manipulate the HTML.
+  The browser provides access to the DOM through a global variable name document that points to the root element of the DOM. If you open the browser's debugger console window and type the variable name document you will see the DOM for the document the browser is currently rendering.
+  For everything in an HTML document, there is a node in the DOM. This includes elements, attributes, text, comments, and whitespace. All of these nodes form a   big tree, with the document node at the top.
+
 </details>
