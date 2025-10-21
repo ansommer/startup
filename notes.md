@@ -69,7 +69,7 @@ Handling the toggling of the checkboxes was particularly interesting.
 ## Notes for the midterm
 
 <details>
-  <summary>## Just straight up some answers</summary>
+  <summary>## Just straight up answering the questions</summary>
 
 
   **1. The default CSS display property value for the HTML <span> element is: inline**
@@ -115,7 +115,7 @@ OR
   `<img src="image.jpg" alt="...">` → displays the image.
   When the user clicks the image, it will take them to the link specified in the `<a>` tag.
 
-  **4. **
+  **4. What does the following code using map with an array output?**
   ```javascript
   const numbers = [1, 2, 3, 4, 5];
   const doubled = numbers.map(num => num * 2);
@@ -124,6 +124,23 @@ OR
   `.map()` creates a new array by applying a function to each element of the original array.
   Here, `num => num * 2` doubles each number.
   The original array `numbers` stays unchanged.
+
+  **5. Given the following HTML, what CSS would you use to set the text "trouble" to green and leave the "double" text unaffected?**
+  ```html
+  <p>double <span class="green-text">trouble</span></p>
+  ```
+  ```css
+  .green-text {
+    color: green;
+  }
+  ```
+
+  **6. How would you use JavaScript to select an element with the id of “byu” and change the text color of that element to green?**
+  ```javascript
+  const element = document.getElementById("byu");
+  element.style.color = "green";
+  ```
+
 
 </details>
 
