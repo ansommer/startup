@@ -109,3 +109,27 @@ Modern HTML contains over 100 different elements. Here is a short list of HTML e
 | `svg`     | Scalable vector graphic content                                        |
 | `iframe`  | Inline frame of another HTML page                                      |
 </details> 
+
+<details>
+  <summary>## CSS Selectors</summary>
+
+| Selector | Symbol | Attribute it matches | Uniqueness                  | Example HTML                  |
+| -------- | ------ | -------------------- | --------------------------- | ----------------------------- |
+| `#title` | `#`    | `id="title"`         | Unique (should appear once) | `<h1 id="title">Heading</h1>` |
+| `.grid`  | `.`    | `class="grid"`       | Can repeat                  | `<div class="grid"></div>`    |
+
+HTML:
+<h1 id="title">Hello</h1>
+CSS:
+#title {
+  color: red;
+}
+HTML:
+<div class="grid">...</div>
+<div class="grid">...</div>
+CSS:
+.grid {
+  display: grid;
+}
+</details>
+
