@@ -73,12 +73,12 @@ Handling the toggling of the checkboxes was particularly interesting.
 
 
   **1. The default CSS display property value for the HTML <span> element is: inline**
-  <span> is an HTML element used to group or wrap inline content without introducing any structural change to the page.
-  It does not create a new line before or after itself (unlike <div>).
+  `<span>` is an HTML element used to group or wrap inline content without introducing any structural change to the page.
+  It does not create a new line before or after itself (unlike `<div>`).
   Primarily used for styling or applying scripts to a portion of text.
   Inline elements flow along with the text and do not start on a new line.
 
-  **How would you use CSS to change all the div elements to have a background color of red?**
+  **2. How would you use CSS to change all the div elements to have a background color of red?**
   ```css
   div {
     background-color: red;
@@ -104,6 +104,27 @@ OR
 
   <link rel="stylesheet" href="styles.css">
   ```
+
+  **3. How would you display an image with a hyperlink in HTML?**
+  ```html
+  <a href="https://www.example.com">
+    <img src="image.jpg" alt="Description of image">
+  </a>
+  ```
+  `<a href="URL">` → creates a clickable link to the URL.
+  `<img src="image.jpg" alt="...">` → displays the image.
+  When the user clicks the image, it will take them to the link specified in the `<a>` tag.
+
+  **4. **
+  ```javascript
+  const numbers = [1, 2, 3, 4, 5];
+  const doubled = numbers.map(num => num * 2);
+  console.log(doubled);
+  ```
+  `.map()` creates a new array by applying a function to each element of the original array.
+  Here, `num => num * 2` doubles each number.
+  The original array `numbers` stays unchanged.
+
 </details>
 
 <details>
@@ -316,5 +337,36 @@ CSS:
   The Document Object Model (DOM) is an object representation of the HTML elements that the browser uses to render the display. The browser also exposes the DOM to external code so that you can write programs that dynamically manipulate the HTML.
   The browser provides access to the DOM through a global variable name document that points to the root element of the DOM. If you open the browser's debugger console window and type the variable name document you will see the DOM for the document the browser is currently rendering.
   For everything in an HTML document, there is a node in the DOM. This includes elements, attributes, text, comments, and whitespace. All of these nodes form a   big tree, with the document node at the top.
+
+  All DOM elements support the ability to attach a function that gets called when an event occurs on the element. These functions are called event listeners. Here is an example of an event listener that gets called when an element gets clicked.
+  **An event listener makes it respond to events, like clicks, typing, or hovering**
+  **`getElmentById` finds an HTML element by its id attribute.**
+
+  ```javascript
+  const submitDataEl = document.querySelector('#submitData');
+  submitDataEl.addEventListener('click', function (event) {
+    console.log(event.type);
+  });
+  ```
+
+  ```html
+  <!DOCTYPE html>
+  <html>
+  <body>
+    <button id="myButton">Click Me</button>
+  
+    <script>
+      const btn = document.getElementById("myButton");
+  
+      btn.addEventListener("click", () => {
+        console.log("Button was clicked!");
+      });
+    </script>
+  </body>
+  </html>
+  ```
+  `document.getElementById("myButton")` → selects the button element with the `id="myButton"`.
+  `addEventListener("click", ...)` → sets up a click event listener on that button.
+  The function inside the event listener executes only when the button is clicked.
 
 </details>
