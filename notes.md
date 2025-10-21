@@ -391,3 +391,51 @@ CSS:
   The function inside the event listener executes only when the button is clicked.
 
 </details>
+
+<details>
+  <summary>## Javascript iteration formatting</summary>
+
+  ```javascript
+  if (condition) {
+    // code to run if condition is true
+  } else if (anotherCondition) {
+    // code to run if anotherCondition is true
+  } else {
+    // code to run if none of the above are true
+  }
+
+  for (initialization; condition; increment) {
+    // code to run each loop iteration
+  }
+
+  while (condition) {
+    // code to run while condition is true
+  }
+
+  switch (expression) {
+    case value1:
+      // code to run if expression === value1
+      break;
+    case value2:
+      // code to run if expression === value2
+      break;
+    default:
+      // code to run if no case matches
+  }
+
+  
+  const color = "red";
+  switch (color) {
+    case "blue":
+      console.log("Color is blue");
+      break;
+    case "red":
+      console.log("Color is red");
+      break;
+    default:
+      console.log("Color not found");
+  }
+
+
+  ```
+</details>
