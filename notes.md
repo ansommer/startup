@@ -561,4 +561,62 @@ CSS:
   const newJson = JSON.stringify(obj);
   ```
 
+  You can convert JSON to, and from, JavaScript using the `JSON.parse` and `JSON.stringify` functions.
+  
+  ```js
+  const obj = { a: 2, b: 'crockford', c: undefined };
+  const json = JSON.stringify(obj);
+  const objFromJson = JSON.parse(json);
+  
+  console.log(obj, json, objFromJson);
+  
+  // OUTPUT:
+  // {a: 2, b: 'crockford', c: undefined}
+  // {"a":2, "b":"crockford"}
+  // {a: 2, b: 'crockford'}
+  ```
+  
+  Note that in this example, JSON cannot represent the JavaScript `undefined` object and so it gets dropped when converting from JavaScript to JSON.
+
+</details>
+
+<details>
+  <summary> ## command line prompts</summary>
+
+| Command | What it Does |
+|---------|--------------|
+| `chmod` | Changes file or directory **permissions** (read, write, execute). |
+| `pwd`   | Prints the **current working directory**. |
+| `cd`    | **Changes directory** (move to a different folder). |
+| `ls`    | **Lists files and directories** in the current folder. |
+| `vim`   | Opens the **Vim text editor** to edit files. |
+| `nano`  | Opens the **Nano text editor**, simpler than Vim. |
+| `mkdir` | **Creates a new directory**. |
+| `mv`    | **Moves or renames files/directories**. |
+| `rm`    | **Removes (deletes) files**. Use `-r` to remove directories recursively. |
+| `man`   | Displays the **manual/help page** for a command. |
+| `ssh`   | **Connects to a remote server** securely via SSH. |
+| `ps`    | Shows **running processes** on the system. |
+| `wget`  | **Downloads files from the internet** via command line. |
+| `sudo`  | Runs a command with **superuser/root privileges** (admin rights). |
+
+
+  **The console command that creates a remote shell session is: ssh**
+
+  **-la**
+  When you use the -la parameter with the ls command in the terminal, it combines two options: -l and -a.
+
+  ls -l → long listing format
+  -Shows detailed information for each file, such as:
+  -Permissions (read/write/execute)
+  -Number of links
+  -Owner and group
+  -File size
+  -Last modification date
+  
+  ls -a → all files
+  -Includes hidden files that start with a dot . (like .gitignore or .bashrc)
+  
+  Combined: ls -la
+  Shows a detailed list of all files, including hidden ones.
 </details>
