@@ -141,6 +141,8 @@ OR
   element.style.color = "green";
   ```
 
+  **7. How do you declare the document type to be html?**
+  `<!DOCTYPE html>`
 
 </details>
 
@@ -166,14 +168,14 @@ Modern HTML contains over 100 different elements. Here is a short list of HTML e
 | `aside`   | Aside content from the main content                                    |
 | `div`     | A block division of content                                            |
 | `span`    | An inline span of content                                              |
-| `h<1-9>`  | Text heading. From h1, the highest level, down to h9, the lowest level |
-| `p`       | A paragraph of text                                                    |
+| `h<1-9>`  | **Text heading. From h1, the highest level, down to h9, the lowest**   |
+| `p`       | **A paragraph of text**                                                |
 | `b`       | Bring attention                                                        |
 | `table`   | Table                                                                  |
 | `tr`      | Table row                                                              |
 | `th`      | Table header                                                           |
 | `td`      | Table data                                                             |
-| `ol,ul`   | Ordered or unordered list                                              |
+| `ol,ul`   | **Ordered or unordered list**                                          |
 | `li`      | List item                                                              |
 | `a`       | Anchor the text to a hyperlink                                         |
 | `img`     | Graphical image reference                                              |
@@ -184,6 +186,8 @@ Modern HTML contains over 100 different elements. Here is a short list of HTML e
 | `video`   | Video content                                                          |
 | `svg`     | Scalable vector graphic content                                        |
 | `iframe`  | Inline frame of another HTML page                                      |
+
+**ex: second-level heading: `<h2>`**
 </details> 
 
 <details>
