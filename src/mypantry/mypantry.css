@@ -2,3 +2,36 @@
   align-items: flex-start; /* override align-items: center from main.css */
   justify-content: flex-start; /* vertical: top */
 }
+
+.ingredient-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.3rem;
+  position: relative;
+}
+
+.hover-actions {
+  display: flex;
+  gap: 0.5rem;
+  opacity: 0;               /* start hidden */
+  transition: opacity 0.2s; /* fade in */
+  margin-left: 0.5rem;
+}
+
+/* Show hover-actions when hovering the row, but not on checkbox */
+.ingredient-row:hover .hover-actions {
+  opacity: 1;
+}
+
+.hover-actions button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #a93d5b;
+  font-size: 1rem;
+  padding: 0;
+}
+
+.ingredient-row:last-child {
+  margin-bottom: 0;
+}
