@@ -1,7 +1,7 @@
 import React from 'react';
 import './mypantry.css';
-import { fetchFoodData } from '../edamamApi';
-import { fetchRecipes } from '../edamamRecipes';
+// import { fetchFoodData } from '../edamamApi';
+// import { fetchRecipes } from '../edamamRecipes';
 
 export function MyPantry({ userName }) {
   const storageKey = `pantry_${userName}`;
@@ -19,15 +19,15 @@ export function MyPantry({ userName }) {
         localStorage.setItem(storageKey, JSON.stringify(ingredients));
       }, [ingredients, storageKey]);
 
-  async function handleIngredientInfo(ingredient) {
-    try {
-      const data = await fetchFoodData(ingredient);
-      console.log("API response:", data);
-      alert(`Found ingredient: ${data.parsed?.[0]?.food?.label || "Unknown"}`);
-    } catch (error) {
-      console.error("Error fetching food data:", error);
-    }
-  }
+  // async function handleIngredientInfo(ingredient) {
+  //   try {
+  //     const data = await fetchFoodData(ingredient);
+  //     console.log("API response:", data);
+  //     alert(`Found ingredient: ${data.parsed?.[0]?.food?.label || "Unknown"}`);
+  //   } catch (error) {
+  //     console.error("Error fetching food data:", error);
+  //   }
+  // }
 
   
     const handleEditSave = (index) => {
@@ -50,33 +50,33 @@ export function MyPantry({ userName }) {
   const updated = [...ingredients, { name: newIngredient, checked: false }];
   setIngredients(updated);
 
-  try {
-    await handleIngredientInfo(newIngredient); // Call API safely
-  } catch (err) {
-    console.error("Failed to fetch ingredient info:", err);
-  }
+  // try {
+  //   await handleIngredientInfo(newIngredient); // Call API safely
+  // } catch (err) {
+  //   console.error("Failed to fetch ingredient info:", err);
+  // }
 
   setNewIngredient('');
   };
 
-  const handleGenerateMeals = async () => {
-  const selectedIngredients = ingredients
-    .filter(ing => ing.checked)
-    .map(ing => ing.name);
+  // const handleGenerateMeals = async () => {
+  // const selectedIngredients = ingredients
+  //   .filter(ing => ing.checked)
+  //   .map(ing => ing.name);
 
-  if (selectedIngredients.length === 0) {
-    alert("Please select at least one ingredient!");
-    return;
-  }
+  // if (selectedIngredients.length === 0) {
+  //   alert("Please select at least one ingredient!");
+  //   return;
+  // }
 
-  try {
-    const results = await fetchRecipes(selectedIngredients);
-    console.log("Fetched recipes:", results);
-    setRecipes(results);
-  } catch (error) {
-    console.error("Error fetching recipes:", error);
-  }
-  };
+  // try {
+  //   const results = await fetchRecipes(selectedIngredients);
+  //   console.log("Fetched recipes:", results);
+  //   setRecipes(results);
+  // } catch (error) {
+  //   console.error("Error fetching recipes:", error);
+  // }
+  // };
 
 
 
