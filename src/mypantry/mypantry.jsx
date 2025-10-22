@@ -1,5 +1,7 @@
 import React from 'react';
 import './mypantry.css';
+import { fetchFoodData } from '../edamamApi';
+import { fetchRecipes } from '../edamamRecipes';
 
 export function MyPantry({ userName }) {
   const storageKey = `pantry_${userName}`;
@@ -8,6 +10,7 @@ export function MyPantry({ userName }) {
     return saved ? JSON.parse(saved) : [];
   });
 
+  const [recipes, setRecipes] = React.useState([]);
   const [newIngredient, setNewIngredient] = React.useState('');
   const [editingIndex, setEditingIndex] = React.useState(null);
   const [editingValue, setEditingValue] = React.useState('');
@@ -16,26 +19,65 @@ export function MyPantry({ userName }) {
         localStorage.setItem(storageKey, JSON.stringify(ingredients));
       }, [ingredients, storageKey]);
 
-  // Add new ingredient on Enter
-  const handleAdd = () => {
-    if (newIngredient.trim() === '') return;
-    setIngredients([...ingredients, { name: newIngredient, checked: false }]);
-    setNewIngredient('');
+  async function handleIngredientInfo(ingredient) {
+    try {
+      const data = await fetchFoodData(ingredient);
+      console.log("API response:", data);
+      alert(`Found ingredient: ${data.parsed?.[0]?.food?.label || "Unknown"}`);
+    } catch (error) {
+      console.error("Error fetching food data:", error);
+    }
+  }
+
+  
+    const handleEditSave = (index) => {
+    if (editingValue.trim() === '') {
+      //if empty, delete ingredient
+      setIngredients(ingredients.filter((_, i) => i !== index));
+    } else {
+      const newList = [...ingredients];
+      newList[index].name = editingValue;
+      setIngredients(newList);
+    }
+    setEditingIndex(null);
+    setEditingValue('');
   };
+    
 
   // Save edit on Enter or click away
-  const handleEditSave = (index) => {
-  if (editingValue.trim() === '') {
-    //if empty, delete ingredient
-    setIngredients(ingredients.filter((_, i) => i !== index));
-  } else {
-    const newList = [...ingredients];
-    newList[index].name = editingValue;
-    setIngredients(newList);
+  const handleAdd = async () => {
+  if (newIngredient.trim() === '') return;
+  const updated = [...ingredients, { name: newIngredient, checked: false }];
+  setIngredients(updated);
+
+  try {
+    await handleIngredientInfo(newIngredient); // Call API safely
+  } catch (err) {
+    console.error("Failed to fetch ingredient info:", err);
   }
-  setEditingIndex(null);
-  setEditingValue('');
-};
+
+  setNewIngredient('');
+  };
+
+  const handleGenerateMeals = async () => {
+  const selectedIngredients = ingredients
+    .filter(ing => ing.checked)
+    .map(ing => ing.name);
+
+  if (selectedIngredients.length === 0) {
+    alert("Please select at least one ingredient!");
+    return;
+  }
+
+  try {
+    const results = await fetchRecipes(selectedIngredients);
+    console.log("Fetched recipes:", results);
+    setRecipes(results);
+  } catch (error) {
+    console.error("Error fetching recipes:", error);
+  }
+  };
+
 
 
  return (
@@ -113,15 +155,12 @@ export function MyPantry({ userName }) {
           value={newIngredient}
           onChange={(e) => setNewIngredient(e.target.value)}
           onKeyDown={(e) => {
-            if (e.key === 'Enter' && newIngredient.trim() !== '') {
-              setIngredients([...ingredients, { name: newIngredient, checked: false }]);
-              setNewIngredient('');
-            }
+            if (e.key === 'Enter') handleAdd();
           }}
           style={{
             marginLeft: '0.5rem',
             flex: 1,
-            padding: '0.25rem',
+            padding: '0.05rem',
             borderRadius: '3px',
             border: '1px solid #ccc',
           }}
@@ -129,14 +168,32 @@ export function MyPantry({ userName }) {
       </div>
 
 
-      <button type="button" className="btn btn-primary">Generate Meal Options</button>
+      <button
+        type="button"
+        className="btn btn-primary"
+        onClick={handleGenerateMeals}
+      >
+        Generate Meal Options
+      </button>
+
+      {/* Render the meal options */}
+      {recipes.length > 0 && (
+        <div style={{ marginTop: '1rem' }}>
+          <h3>Meal Options:</h3>
+          <ul>
+            {recipes.map((recipe, idx) => (
+              <li key={idx}>
+                <a href={recipe.url} target="_blank" rel="noopener noreferrer">
+                  {recipe.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
 
     </main>
   );
 }
-
-       {/* <div className="d-flex gap-2">
-          <button type="button" className="btn btn-secondary">Add Ingredient</button>
-        </div>*/}
     
