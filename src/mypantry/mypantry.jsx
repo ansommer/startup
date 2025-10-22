@@ -168,13 +168,24 @@ export function MyPantry({ userName }) {
       </div>
 
 
+
       <button
+        type="button"
+        className="btn btn-primary"
+        onClick={() => alert('Sorry this function is not ready yet')}
+      >
+        Generate Meal Options
+      </button>
+
+
+
+      {/*<button
         type="button"
         className="btn btn-primary"
         onClick={handleGenerateMeals}
       >
         Generate Meal Options
-      </button>
+      </button>*/}
 
       {/* Render the meal options */}
       {recipes.length > 0 && (
