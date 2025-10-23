@@ -1,8 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const [likes, setLikes] = useState(0);
 
-export function RecipeCard({ recipe }) {
+
+
+export function RecipeCard({ recipe, userName }) {
+  
+  const [likes, setLikes] = useState(0);
+  const [liked, setLiked] = useState(false);
+  const [comments, setComments] = useState(recipe.comments || []);
+  const [newComment, setNewComment] = useState('');
+  const [showCommentBox, setShowCommentBox] = useState(false);
+
+  const handleLike = () => {
+    if (liked) {
+      setLikes(likes - 1);
+    } else {
+      setLikes(likes + 1);
+    }
+    setLiked(!liked); 
+  };
+
+  const handleAddComment = () => {
+    if (newComment.trim() === '') return;
+    setComments([...comments, `"${newComment}" --${userName}`]);
+    setNewComment('');
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleAddComment();
+    }
+  };
+
   return (
     <div className="recipe-post card mb-4">
       <div className="row g-0">
@@ -22,19 +52,48 @@ export function RecipeCard({ recipe }) {
           <div className="recent-comments mt-auto">
             <strong>Recent Comments:</strong>
             <ul className="list-unstyled mb-2">
-              {recipe.comments.map((comment, idx) => (
+              {comments.map((comment, idx) => (
                 <li key={idx}>{comment}</li>
               ))}
             </ul>
+
+            {showCommentBox && (
+            <div className="d-flex gap-2 mt-2">
+              <input
+                type="text"
+                className="form-control form-control-sm"
+                placeholder="Add a comment..."
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                onKeyDown={handleKeyDown}
+              />
+              <button
+                className="btn btn-sm btn-outline-secondary"
+                onClick={handleAddComment}
+              >
+                Post
+              </button>
+            </div>
+            )}
           </div>
+
           <div className="d-flex justify-content-between align-items-center mt-2">
           <div className="bottom-left-text">
-            <span>{likes} ❤️</span>
+            <span> {likes > 0 ? `${likes} ❤️` : 'No likes yet'}</span>
           </div>
           <div className="d-flex gap-2">
-            <button className="btn btn-outline-primary btn-sm">Like</button>
-            <button className="btn btn-outline-secondary btn-sm">Comment</button>
-            <button className="btn btn-outline-success btn-sm">Share</button>
+            <button
+                className={`btn btn-sm ${liked ? 'btn-primary' : 'btn-outline-primary'}`}
+                onClick={handleLike}
+              >
+                {liked ? 'Liked' : 'Like'}
+              </button>
+            <button
+                className="btn btn-outline-secondary btn-sm"
+                onClick={() => setShowCommentBox(!showCommentBox)}
+              >
+                {showCommentBox ? 'Hide' : 'Comment'}
+              </button>
           </div>
         </div>
         </div>
