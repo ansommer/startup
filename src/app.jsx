@@ -54,7 +54,6 @@ export default function App() {
             }
             exact
           />
-          <Route path='/' element={<Login />} exact />
           <Route path='/mypantry' element={<MyPantry userName={userName}/>} />
           <Route path='/mymealfeed' element={<MyMealFeed userName={userName} />} />
           <Route path='*' element={<NotFound />} />

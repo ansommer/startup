@@ -29,7 +29,7 @@ const initialRecipes = [
 ];
 
 
-export function MyMealFeed({ username }) {
+export function MyMealFeed({ userName }) {
 
   const [recipes, setRecipes] = useState(initialRecipes);
 
@@ -40,7 +40,7 @@ export function MyMealFeed({ username }) {
   return (
     <main className="container-fluid text-center">
       {recipes.map(recipe => (
-        <RecipeCard key={recipe.id} recipe={recipe} userName={username} />
+        <RecipeCard key={recipe.id} recipe={recipe} userName={userName} />
       ))}
     </main>
   );
