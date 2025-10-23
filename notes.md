@@ -43,7 +43,7 @@ Here's the code for deploying because I always get confused ./deployReact.sh -k 
 ## React Part 2: Reactivity
 
 Honestly this was a awkward middle step. I wanted to get it to where everything was 100% working and I started trying to implement an API before I realized that wasn't part of thus deliverable and I still don't have all the tools/knowledge for that...
-So I hope that I did this deliverable correctly....
+So I hope that I did this deliverable correctly.... I basically just tried to get everything working up to the point of where I would need a backend. For example, you can like a post but there's not a way for the post to keep the likes across different users.
 
 ## Notes for the midterm
 
