@@ -92,8 +92,8 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **All functionality implemented or mocked out** - I did not complete this part of the deliverable.
-- [ ] **Hooks** - I did not complete this part of the deliverable.
+- [x] **All functionality implemented or mocked out** - Login 'workshop put in a username and password, in the myPantry you can add, delete, and edit a list of ingredients, in the MyMealFeed I updated it so the cards have like a template with react instead of completely hardcoded. you can also like and comment. 
+- [x] **Hooks** - Yes
 
 ## 🚀 Service deliverable
 
