@@ -45,6 +45,21 @@ Here's the code for deploying because I always get confused ./deployReact.sh -k 
 Honestly this was a awkward middle step. I wanted to get it to where everything was 100% working and I started trying to implement an API before I realized that wasn't part of thus deliverable and I still don't have all the tools/knowledge for that...
 So I hope that I did this deliverable correctly.... I basically just tried to get everything working up to the point of where I would need a backend. For example, you can like a post but there's not a way for the post to keep the likes across different users.
 
+## Database
+Things to get it working:
+
+dbConfig with the host, username, and password (put it in the git ignore)
+
+npm install mongo (make a folder and put it in, i think you have to do npm init -y first too)
+
+npm install cookie-parser express bcryptjs uuid (install that in the most outside directory)
+
+npm run dev
+
+node index.js (from the service directory)
+
+refresh mongo :)
+
 ## Notes for the midterm
 
 <details>
