@@ -47,11 +47,17 @@ So I hope that I did this deliverable correctly.... I basically just tried to ge
 
 ## Database
 Things to get it working:
+
 dbConfig with the host, username, and password (put it in the git ignore)
+
 npm install mongo (make a folder and put it in, i think you have to do npm init -y first too)
+
 npm install cookie-parser express bcryptjs uuid (install that in the most outside directory)
+
 npm run dev
+
 node index.js (from the service directory)
+
 refresh mongo :)
 
 ## Notes for the midterm
