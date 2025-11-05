@@ -5,79 +5,96 @@ import './mypantry.css';
 
 export function MyPantry({ userName }) {
   const storageKey = `pantry_${userName}`;
-  const [ingredients, setIngredients] = React.useState(() => {
-    const saved = localStorage.getItem(storageKey);
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [ingredients, setIngredients] = React.useState([]);
 
   const [recipes, setRecipes] = React.useState([]);
   const [newIngredient, setNewIngredient] = React.useState('');
   const [editingIndex, setEditingIndex] = React.useState(null);
   const [editingValue, setEditingValue] = React.useState('');
 
-  React.useEffect(() => {
-        localStorage.setItem(storageKey, JSON.stringify(ingredients));
-      }, [ingredients, storageKey]);
 
-  // async function handleIngredientInfo(ingredient) {
-  //   try {
-  //     const data = await fetchFoodData(ingredient);
-  //     console.log("API response:", data);
-  //     alert(`Found ingredient: ${data.parsed?.[0]?.food?.label || "Unknown"}`);
-  //   } catch (error) {
-  //     console.error("Error fetching food data:", error);
-  //   }
-  // }
+React.useEffect(() => {
+    async function fetchIngredients() {
+      try {
+        const res = await fetch('/api/ingredients', { credentials: 'include' });
+        if (res.ok) {
+          const data = await res.json();
+          setIngredients(data.map(name => ({ name, checked: false })));
+        }
+      } catch (err) {
+        console.error('Failed to fetch ingredients:', err);
+      }
+    }
 
-  
-    const handleEditSave = (index) => {
-    if (editingValue.trim() === '') {
-      //if empty, delete ingredient
-      setIngredients(ingredients.filter((_, i) => i !== index));
+    fetchIngredients();
+  }, []);
+
+    async function addIngredient() {
+      const trimmed = newIngredient.trim();
+      if (!trimmed) return;
+
+      await fetch('/api/ingredients', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ ingredient: trimmed }),
+        credentials: 'include',
+      });
+
+      setIngredients(prev => [...prev, { name: trimmed, checked: false }]);
+      setNewIngredient('');
+    }
+
+    // Toggle checkbox
+    const toggleIngredientChecked = (index) => {
+      setIngredients(prev => {
+        const updated = [...prev];
+        updated[index].checked = !updated[index].checked;
+        return updated;
+      });
+    };
+      
+    // Save an edited ingredient
+  const saveEditedIngredient = async (index) => {
+    const trimmed = editingValue.trim();
+    if (!trimmed) {
+      removeIngredient(index);
     } else {
-      const newList = [...ingredients];
-      newList[index].name = editingValue;
-      setIngredients(newList);
+      try {
+        await fetch('/api/ingredients', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ ingredient: trimmed }),
+          credentials: 'include',
+        });
+
+        setIngredients(prev => {
+          const updated = [...prev];
+          updated[index].name = trimmed;
+          return updated;
+        });
+      } catch (err) {
+        console.error('Failed to update ingredient:', err);
+      }
     }
     setEditingIndex(null);
     setEditingValue('');
   };
-    
 
-  // Save edit on Enter or click away
-  const handleAdd = async () => {
-  if (newIngredient.trim() === '') return;
-  const updated = [...ingredients, { name: newIngredient, checked: false }];
-  setIngredients(updated);
+  const removeIngredient = async (index) => {
+    const nameToDelete = ingredients[index].name;
+    try {
+      await fetch('/api/ingredients', {
+        method: 'DELETE',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ ingredient: nameToDelete }),
+        credentials: 'include',
+      });
 
-  // try {
-  //   await handleIngredientInfo(newIngredient); // Call API safely
-  // } catch (err) {
-  //   console.error("Failed to fetch ingredient info:", err);
-  // }
-
-  setNewIngredient('');
+      setIngredients(prev => prev.filter((_, i) => i !== index));
+    } catch (err) {
+      console.error('Failed to delete ingredient:', err);
+    }
   };
-
-  // const handleGenerateMeals = async () => {
-  // const selectedIngredients = ingredients
-  //   .filter(ing => ing.checked)
-  //   .map(ing => ing.name);
-
-  // if (selectedIngredients.length === 0) {
-  //   alert("Please select at least one ingredient!");
-  //   return;
-  // }
-
-  // try {
-  //   const results = await fetchRecipes(selectedIngredients);
-  //   console.log("Fetched recipes:", results);
-  //   setRecipes(results);
-  // } catch (error) {
-  //   console.error("Error fetching recipes:", error);
-  // }
-  // };
-
 
 
  return (
@@ -90,11 +107,7 @@ export function MyPantry({ userName }) {
             <input
               type="checkbox"
               checked={item.checked}
-              onChange={() => {
-                const newList = [...ingredients];
-                newList[index].checked = !newList[index].checked;
-                setIngredients(newList);
-              }}
+              onChange={() => {toggleIngredientChecked(index)}}
             />
 
             {editingIndex === index ? (
@@ -102,9 +115,9 @@ export function MyPantry({ userName }) {
                 type="text"
                 value={editingValue}
                 onChange={(e) => setEditingValue(e.target.value)}
-                onBlur={() => handleEditSave(index)}  // ✅ NEW: save on click away
+                onBlur={() => saveEditedIngredient(index)}  
                 onKeyDown={(e) => {
-                  if (e.key === 'Enter') handleEditSave(index);
+                  if (e.key === 'Enter') saveEditedIngredient(index);
                   if (e.key === 'Escape') {
                     setEditingIndex(null);
                     setEditingValue('');
@@ -128,12 +141,7 @@ export function MyPantry({ userName }) {
               >
                 ✎
               </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setIngredients(ingredients.filter((_, i) => i !== index));
-                }}
-              >
+              <button type="button" onClick={() => removeIngredient(index)}>
                 ×
               </button>
             </div>
@@ -155,7 +163,7 @@ export function MyPantry({ userName }) {
           value={newIngredient}
           onChange={(e) => setNewIngredient(e.target.value)}
           onKeyDown={(e) => {
-            if (e.key === 'Enter') handleAdd();
+            if (e.key === 'Enter') addIngredient();
           }}
           style={{
             marginLeft: '0.5rem',

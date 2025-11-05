@@ -73,8 +73,11 @@ apiRouter.get('/ingredients', verifyAuth, (_req, res) => {
 
 // SubmitIngredients
 apiRouter.post('/ingredients', verifyAuth, (req, res) => {
-  ingredients = req.body;
-  res.send(ingredients);
+  const ingredient = req.body.ingredient; //if it's now working try how simon did it
+  const updated = updateIngredients(ingredient);
+  console.log('Current ingredients list:', updated);
+
+  res.send(updated);
 });
 
 
