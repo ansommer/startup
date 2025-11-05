@@ -1,5 +1,5 @@
 .vscode/
 .DS_Store
 node_modules/
-
-#I just copied this from simon because I didn't have one?
+.env
+260keyIMPORTANT.pem
