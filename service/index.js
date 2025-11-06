@@ -18,6 +18,7 @@ var apiRouter = express.Router();
 app.use(`/api`, apiRouter);
 
 
+
 // CreateAuth a new user
 apiRouter.post('/auth/create', async (req, res) => {  
   console.log(`In API. Creating user ${req.body.email}`);

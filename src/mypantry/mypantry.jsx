@@ -1,9 +1,11 @@
 import React from 'react';
 import './mypantry.css';
-// import { fetchFoodData } from '../edamamApi';
-// import { fetchRecipes } from '../edamamRecipes';
+import { validateIngredient, fetchRecipesByIngredients } from '../spoonacularApi';
+
+
 
 export function MyPantry({ userName }) {
+
   const storageKey = `pantry_${userName}`;
   const [ingredients, setIngredients] = React.useState([]);
 
@@ -33,6 +35,18 @@ React.useEffect(() => {
       const trimmed = newIngredient.trim();
       if (!trimmed) return;
 
+      try {
+        const valid = await validateIngredient(trimmed);
+        if (!valid) {
+          alert(`${trimmed} is not a recognized ingredient.`);
+          return;
+        }
+      } catch (err) {
+        console.error('Ingredient validation failed:', err);
+        alert('Error validating ingredient');
+        return;
+      }
+
       await fetch('/api/ingredients', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
@@ -43,6 +57,8 @@ React.useEffect(() => {
       setIngredients(prev => [...prev, { name: trimmed, checked: false }]);
       setNewIngredient('');
     }
+
+
 
     // Toggle checkbox
     const toggleIngredientChecked = (index) => {
@@ -106,6 +122,42 @@ React.useEffect(() => {
       console.error('Failed to delete ingredient:', err);
     }
   };
+
+  async function isValidIngredient(name) {
+    
+    if (!name) return false;
+
+    try {
+      const data = await fetchFoodData(name);
+
+      // Edamam returns 'parsed' and 'hints'
+      return (data.parsed && data.parsed.length > 0) || (data.hints && data.hints.length > 0);
+    } catch (err) {
+      console.error('Ingredient validation failed:', err);
+      return false;
+    }
+  }
+
+  const generateRecipes = async () => {
+      const selectedIngredients = ingredients
+        .filter(i => i.checked)
+        .map(i => i.name);
+
+      if (selectedIngredients.length === 0) {
+        alert('Please select at least one ingredient');
+        return;
+      }
+
+      try {
+        const recipesList = await fetchRecipesByIngredients(selectedIngredients);
+        console.log('Recipes from Spoonacular:', recipesList);
+        setRecipes(recipesList);
+      } catch (err) {
+        console.error('Failed to fetch recipes:', err);
+        alert('Error fetching recipes');
+      }
+    };
+
 
 
  return (
@@ -191,7 +243,7 @@ React.useEffect(() => {
       <button
         type="button"
         className="btn btn-primary"
-        onClick={() => alert('Sorry this function is not ready yet')}
+        onClick={generateRecipes}
       >
         Generate Meal Options
       </button>

@@ -60,11 +60,15 @@ export default function App() {
         </Routes>
 
         <footer className="text-white-50">
-          <div className="container-fluid">
-            <span className="text-reset">Amelia Sommercorn</span>
-            <a className="text-reset" href="https://github.com/ansommer/startup">GitHub</a>
-          </div>
-        </footer>
+        <div className="container-fluid d-flex gap-3">
+          <span className="text-reset">Amelia Sommercorn</span>
+          <a className="text-reset" href="https://github.com/ansommer/startup" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <span className="text-reset">|</span>
+          <a className="text-reset" href="https://spoonacular.com/food-api" target="_blank" rel="noopener noreferrer">
+            Recipes powered by Spoonacular
+          </a>
+        </div>
+      </footer>
       </div>
     </BrowserRouter>
   );
