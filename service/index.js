@@ -20,7 +20,8 @@ app.use(`/api`, apiRouter);
 
 
 // CreateAuth a new user
-apiRouter.post('/auth/create', async (req, res) => {
+apiRouter.post('/auth/create', async (req, res) => {  
+  console.log(`In API. Creating user ${req.body.email}`);
   if (await findUser('email', req.body.email)) {
     res.status(409).send({ msg: 'Existing user' });
   } else {
@@ -33,6 +34,7 @@ apiRouter.post('/auth/create', async (req, res) => {
 
 // GetAuth login an existing user
 apiRouter.post('/auth/login', async (req, res) => {
+  console.log(`In API. Logging in user ${req.body.email}`);
   const user = await findUser('email', req.body.email);
   if (user) {
     if (await bcrypt.compare(req.body.password, user.password)) {
@@ -120,7 +122,7 @@ async function createUser(email, password) {
     token: uuid.v4(),
   };
   users.push(user);
-
+  console.log('Current users:', users.map(u => u.email));
   return user;
 }
 
