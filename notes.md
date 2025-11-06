@@ -45,6 +45,9 @@ Here's the code for deploying because I always get confused ./deployReact.sh -k 
 Honestly this was a awkward middle step. I wanted to get it to where everything was 100% working and I started trying to implement an API before I realized that wasn't part of thus deliverable and I still don't have all the tools/knowledge for that...
 So I hope that I did this deliverable correctly.... I basically just tried to get everything working up to the point of where I would need a backend. For example, you can like a post but there's not a way for the post to keep the likes across different users.
 
+## Service
+I ran into a lot of problems trying to use one api. The key was just to give up on that api and just try a different one. Worked great! way easier! Anyway it's basically just using the endpoints to make things work rather than internally.
+
 ## Database
 Things to get it working:
 

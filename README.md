@@ -99,12 +99,12 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Node.js/Express HTTP service** - I did not complete this part of the deliverable.
-- [ ] **Static middleware for frontend** - I did not complete this part of the deliverable.
-- [ ] **Calls to third party endpoints** - I did not complete this part of the deliverable.
-- [ ] **Backend service endpoints** - I did not complete this part of the deliverable.
-- [ ] **Frontend calls service endpoints** - I did not complete this part of the deliverable.
-- [ ] **Supports registration, login, logout, and restricted endpoint** - I did not complete this part of the deliverable.
+- [x] **Node.js/Express HTTP service** - Yes
+- [x] **Static middleware for frontend** - Did it
+- [x] **Calls to third party endpoints** - Verifies the ingredients that you're adding are real ingredients, generates the recipes
+- [x] **Backend service endpoints** - post and delete for users and ingredients, get for ingredients. I didn't get to finish the recipe cards though.
+- [x] **Frontend calls service endpoints** - They do. Same thing about the recipe cards :/ I'll fix that later...?
+- [x] **Supports registration, login, logout, and restricted endpoint** - Sure does!
 
 
 ## 🚀 DB deliverable
