@@ -7,7 +7,6 @@ const uuid = require('uuid');
 const authCookieName = 'token';
 
 let users = [];
-let ingredients = [];
 
 const port = process.argv.length > 2 ? process.argv[2] : 3000;
 
@@ -69,19 +68,41 @@ const verifyAuth = async (req, res, next) => {
 
 
 // GetIngredients
-apiRouter.get('/ingredients', verifyAuth, (_req, res) => {
-  res.send(ingredients);
+apiRouter.get('/ingredients', verifyAuth, (req, res) => {
+  const user = users.find(u => u.token === req.cookies[authCookieName]);
+  res.send(user.ingredients);
 });
 
 // SubmitIngredients
 apiRouter.post('/ingredients', verifyAuth, (req, res) => {
-  const ingredient = req.body.ingredient; //if it's now working try how simon did it
-  const updated = updateIngredients(ingredient);
-  console.log('Current ingredients list:', updated);
+  const user = users.find(u => u.token === req.cookies[authCookieName]);
+  const ingredient = req.body.ingredient;
+  if (!ingredient || typeof ingredient !== 'string') {
+    return res.send(user.ingredients);
+  }
 
-  res.send(updated);
+  const normalized = ingredient.trim().toLowerCase();
+  if (!user.ingredients.includes(normalized)) {
+    user.ingredients.push(normalized);
+  }
+
+  user.ingredients.sort((a, b) => a.localeCompare(b));
+  console.log(`Ingredients for ${user.email}:`, user.ingredients);
+
+  res.send(user.ingredients);
 });
 
+// DELETE an ingredient
+apiRouter.delete('/ingredients', verifyAuth, (req, res) => {
+  const user = users.find(u => u.token === req.cookies[authCookieName]);
+  const ingredientName = req.body.ingredient?.toLowerCase();
+  if (!ingredientName) return res.status(400).send({ msg: 'Missing ingredient name' });
+
+  user.ingredients = user.ingredients.filter(i => i !== ingredientName);
+  console.log(`Ingredients for ${user.email}:`, user.ingredients);
+
+  res.send(user.ingredients);
+});
 
 // Default error handler
 app.use(function (err, req, res, next) {
@@ -120,6 +141,7 @@ async function createUser(email, password) {
     email: email,
     password: passwordHash,
     token: uuid.v4(),
+    ingredients: [],
   };
   users.push(user);
   console.log('Current users:', users.map(u => u.email));

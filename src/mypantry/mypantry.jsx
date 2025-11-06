@@ -55,30 +55,41 @@ React.useEffect(() => {
       
     // Save an edited ingredient
   const saveEditedIngredient = async (index) => {
-    const trimmed = editingValue.trim();
-    if (!trimmed) {
-      removeIngredient(index);
-    } else {
-      try {
-        await fetch('/api/ingredients', {
-          method: 'POST',
-          headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({ ingredient: trimmed }),
-          credentials: 'include',
-        });
+  const trimmed = editingValue.trim();
+  const oldName = ingredients[index].name;
 
-        setIngredients(prev => {
-          const updated = [...prev];
-          updated[index].name = trimmed;
-          return updated;
-        });
-      } catch (err) {
-        console.error('Failed to update ingredient:', err);
-      }
+  if (!trimmed) {
+    removeIngredient(index);
+  } else {
+    try {
+      await fetch('/api/ingredients', {
+        method: 'DELETE',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ ingredient: oldName }),
+        credentials: 'include',
+      });
+
+      await fetch('/api/ingredients', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ ingredient: trimmed }),
+        credentials: 'include',
+      });
+
+      setIngredients(prev => {
+        const updated = [...prev];
+        updated[index].name = trimmed;
+        return updated;
+      });
+    } catch (err) {
+      console.error('Failed to edit ingredient:', err);
     }
-    setEditingIndex(null);
-    setEditingValue('');
-  };
+  }
+
+  setEditingIndex(null);
+  setEditingValue('');
+};
+
 
   const removeIngredient = async (index) => {
     const nameToDelete = ingredients[index].name;
