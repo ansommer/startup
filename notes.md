@@ -47,6 +47,7 @@ So I hope that I did this deliverable correctly.... I basically just tried to ge
 
 ## Service
 I ran into a lot of problems trying to use one api. The key was just to give up on that api and just try a different one. Worked great! way easier! Anyway it's basically just using the endpoints to make things work rather than internally.
+I breifly tried to put in the ability to post a recipe using only a URL but it just used too many API points. It's in there but commented out until I want to implement it. If I were to continue I'd make it like a 'premium' option.
 
 ## Database
 Things to get it working:

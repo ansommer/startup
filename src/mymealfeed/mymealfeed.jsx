@@ -2,13 +2,14 @@
 import './mymealfeed.css';
 import { RecipeCard } from './recipecard';
 import React, { useState, useEffect } from 'react';
-import { fetchRecipeFromUrl } from '../spoonacularApi';
+//import { fetchRecipeFromUrl } from '../spoonacularApi';
 
 
 export function MyMealFeed({ userName }) {
-  const [loading, setLoading] = useState(false);
+  //const [loading, setLoading] = useState(false);
   const [recipes, setRecipes] = useState([]);
-  const [recipeUrl, setRecipeUrl] = useState('');
+  const [ingredients, setIngredients] = useState([]);
+  //const [recipeUrl, setRecipeUrl] = useState('');
   const [manualRecipe, setManualRecipe] = useState({
     title: '',
     url: '',
@@ -16,18 +17,38 @@ export function MyMealFeed({ userName }) {
     image: '',
   });
 
+  //const [quota, setQuota] = useState({ used: null, left: null });
+  //const [warning, setWarning] = useState('');
+
+  /*async function fetchQuota() {
+      try {
+        const dummyIngredients = ['egg']; // small, cheap ingredient
+        const { quotaUsed, quotaLeft } = await fetchRecipesByIngredients(dummyIngredients);
+        setQuota({ used: quotaUsed, left: quotaLeft });
+  
+        if (Number(quotaLeft) <= 5) {
+          setWarning('Spoonacular daily limit almost reached — please try again tomorrow.');
+        } else {
+          setWarning('');
+        }
+      } catch (err) {
+        console.error('Failed to fetch quota:', err);
+      }
+    }*/
+
   useEffect(() => {
   async function loadRecipes() {
     try {
-      const res = await fetch('/api/recipes', { credentials: 'include' });
-      if (!res.ok) throw new Error('Failed to fetch recipes');
-      const data = await res.json();
-      setRecipes(data);
-    } catch (err) {
-      console.error(err);
+        const res = await fetch('/api/recipes', { credentials: 'include' });
+        if (!res.ok) throw new Error('Failed to fetch recipes');
+        const data = await res.json();
+        setRecipes(data);
+      } catch (err) {
+        console.error(err);
+      }
     }
-  }
-  loadRecipes();
+    loadRecipes();
+    //fetchQuota();
 }, []);
 
   const addManualRecipe = async () => {
@@ -52,27 +73,23 @@ export function MyMealFeed({ userName }) {
     }
   };
 
-  const addRecipeFromUrl = async () => {
+  /*const addRecipeFromUrl = async () => {
     if (!recipeUrl.trim()) return;
-    try {
-      setLoading(true);
-      const res = await fetch('/api/recipes/from-url', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ url: recipeUrl }),
-      });
-      if (!res.ok) throw new Error('Failed to generate recipe');
-      const newRecipe = await res.json();
-      setRecipes(prev => [...prev, newRecipe]);
-      setRecipeUrl('');
-    } catch (err) {
-      console.error(err);
-      alert('Could not extract recipe from that URL.');
-    } finally {
-      setLoading(false);
-    }
-  };
+      try {
+        setLoading(true);
+        const newRecipe = await fetchRecipeFromUrl(recipeUrl, setQuota);
+        setRecipes(prev => [...prev, newRecipe]);
+        setRecipeUrl('');
+        if (Number(newRecipe.quotaLeft) <= 5) {
+          setWarning('Spoonacular daily limit almost reached — please try again tomorrow.');
+        }
+      } catch (err) {
+        console.error(err);
+        alert(err.message || 'Could not extract recipe from that URL.');
+      } finally {
+        setLoading(false);
+      }
+  };*/
 
 
   const likeRecipe = async (recipeId) => {
@@ -128,7 +145,7 @@ export function MyMealFeed({ userName }) {
 
       {/* Sidebar */}
       <aside className="recipe-sidebar">
-        <h3>Generate from URL</h3>
+        {/*<h3>Generate from URL</h3>
         <input
           type="text"
           placeholder="Paste recipe link"
@@ -136,13 +153,22 @@ export function MyMealFeed({ userName }) {
           onChange={e => setRecipeUrl(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && addRecipeFromUrl()}
         />
+        {quota.left !== null && Number(quota.left) <= 5 && (
+          <p style={{ color: 'red', marginTop: '0.5rem' }}>{warning}</p>
+        )}
         <button
           className="btn btn-primary"
           onClick={addRecipeFromUrl}
-          disabled={loading}
+          disabled={loading || (quota.left !== null && Number(quota.left) <= 5)}
         >
           {loading ? 'Loading...' : 'Generate Recipe'}
         </button>
+
+        {quota.used !== null && (
+          <p style={{ marginTop: '0.5rem', color: '#666' }}>
+            Spoonacular API usage today: <b>{quota.used}</b> used / <b>{quota.left}</b> left
+          </p>
+        )} */}
 
         <h3>Add Manually</h3>
         <input

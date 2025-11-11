@@ -13,6 +13,8 @@ export function MyPantry({ userName }) {
   const [newIngredient, setNewIngredient] = React.useState('');
   const [editingIndex, setEditingIndex] = React.useState(null);
   const [editingValue, setEditingValue] = React.useState('');
+  const [quota, setQuota] = React.useState({ used: null, left: null });
+  const [warning, setWarning] = React.useState('');
 
 
 React.useEffect(() => {
@@ -35,27 +37,15 @@ React.useEffect(() => {
       const trimmed = newIngredient.trim();
       if (!trimmed) return;
 
-      try {
-        const valid = await validateIngredient(trimmed);
-        if (!valid) {
-          alert(`${trimmed} is not a recognized ingredient.`);
-          return;
-        }
-      } catch (err) {
-        console.error('Ingredient validation failed:', err);
-        alert('Error validating ingredient');
-        return;
-      }
-
       await fetch('/api/ingredients', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ ingredient: trimmed }),
-        credentials: 'include',
-      });
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ ingredient: trimmed }),
+      credentials: 'include',
+    });
 
-      setIngredients(prev => [...prev, { name: trimmed, checked: false }]);
-      setNewIngredient('');
+    setIngredients(prev => [...prev, { name: trimmed, checked: false }]);
+    setNewIngredient('');
     }
 
 
@@ -71,26 +61,26 @@ React.useEffect(() => {
       
     // Save an edited ingredient
   const saveEditedIngredient = async (index) => {
-  const trimmed = editingValue.trim();
-  const oldName = ingredients[index].name;
+    const trimmed = editingValue.trim();
+    const oldName = ingredients[index].name;
 
-  if (!trimmed) {
-    removeIngredient(index);
-  } else {
-    try {
-      await fetch('/api/ingredients', {
-        method: 'DELETE',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ ingredient: oldName }),
-        credentials: 'include',
-      });
+    if (!trimmed) {
+      removeIngredient(index);
+    } else {
+      try {
+        await fetch('/api/ingredients', {
+          method: 'DELETE',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ ingredient: oldName }),
+          credentials: 'include',
+        });
 
-      await fetch('/api/ingredients', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ ingredient: trimmed }),
-        credentials: 'include',
-      });
+        await fetch('/api/ingredients', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ ingredient: trimmed }),
+          credentials: 'include',
+        });
 
       setIngredients(prev => {
         const updated = [...prev];
@@ -123,21 +113,6 @@ React.useEffect(() => {
     }
   };
 
-  async function isValidIngredient(name) {
-    
-    if (!name) return false;
-
-    try {
-      const data = await fetchFoodData(name);
-
-      // Edamam returns 'parsed' and 'hints'
-      return (data.parsed && data.parsed.length > 0) || (data.hints && data.hints.length > 0);
-    } catch (err) {
-      console.error('Ingredient validation failed:', err);
-      return false;
-    }
-  }
-
   const generateRecipes = async () => {
       const selectedIngredients = ingredients
         .filter(i => i.checked)
@@ -149,14 +124,58 @@ React.useEffect(() => {
       }
 
       try {
-        const recipesList = await fetchRecipesByIngredients(selectedIngredients);
-        console.log('Recipes from Spoonacular:', recipesList);
-        setRecipes(recipesList);
-      } catch (err) {
-        console.error('Failed to fetch recipes:', err);
-        alert('Error fetching recipes');
+      const validationResults = await Promise.all(
+        selectedIngredients.map(async (name) => {
+          try {
+            const isValid = await validateIngredient(name);
+            return { name, valid: isValid };
+          } catch {
+            return { name, valid: false };
+          }
+        })
+      );
+    const validIngredients = validationResults
+        .filter(r => r.valid)
+        .map(r => r.name);
+
+      const invalidIngredients = validationResults
+        .filter(r => !r.valid)
+        .map(r => r.name);
+
+      if (invalidIngredients.length > 0) {
+        alert(
+          `The following ingredients are not recognized:\n${invalidIngredients.join(', ')}`
+        );
       }
-    };
+
+      if (validIngredients.length === 0) {
+        alert('No valid ingredients to generate recipes.');
+        return;
+      }
+
+      try {
+        const { recipesList, quotaUsed, quotaLeft } = await fetchRecipesByIngredients(validIngredients);
+        setRecipes(recipesList);
+
+        if (quotaUsed && quotaLeft) {
+          setQuota({ used: quotaUsed, left: quotaLeft });
+          if (Number(quotaLeft) <= 5) {
+            const message = 'Spoonacular daily limit almost reached — please try again tomorrow.';
+            setWarning(message);
+            console.warn(message);
+            alert(message); 
+          } else {
+            setWarning('');
+          }
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    } catch (err) {
+      console.error('Failed to fetch recipes:', err);
+      alert('Error fetching recipes');
+    }
+  };
 
 
 
@@ -238,25 +257,23 @@ React.useEffect(() => {
         />
       </div>
 
-
+      {/* Warning */}
+      {warning && (
+        <p style={{ color: 'red', marginTop: '0.5rem' }}>
+          {warning}
+        </p>
+      )}
 
       <button
         type="button"
         className="btn btn-primary"
         onClick={generateRecipes}
+        disabled={quota.left !== null && Number(quota.left) <= 5}
       >
         Generate Meal Options
       </button>
 
-
-
-      {/*<button
-        type="button"
-        className="btn btn-primary"
-        onClick={handleGenerateMeals}
-      >
-        Generate Meal Options
-      </button>*/}
+      
 
       {/* Render the meal options */}
       {recipes.length > 0 && (
