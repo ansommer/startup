@@ -5,35 +5,9 @@ import React, { useState, useEffect } from 'react';
 import { fetchRecipeFromUrl } from '../spoonacularApi';
 
 
-const initialRecipes = [
-  {
-    id: 1,
-    title: "Delicious Chocolate Cake",
-    url: "https://sallysbakingaddiction.com/triple-chocolate-layer-cake/",
-    description: "A rich and moist chocolate cake perfect for any occasion. Easy to make and loved by everyone!",
-    image: "cake.jpg",
-    comments: [
-      "Loved it! So moist and chocolatey --Alex",
-      "Best cake ever 🤤 --Anonymous",
-    ],
-  },
-  {
-    id: 2,
-    title: "Perfect Homemade Bread",
-    url: "https://tastesbetterfromscratch.com/bread-recipe/",
-    description: "Soft, golden, and freshly baked, this homemade bread is perfect for sandwiches or just enjoying with butter",
-    image: "bread.webp",
-    comments: [
-      "Delicious with honeybutter! --Sheryl",
-      "I bake this every Sunday --Robert",
-    ],
-  },
-];
-
-
 export function MyMealFeed({ userName }) {
   const [loading, setLoading] = useState(false);
-  const [recipes, setRecipes] = useState(initialRecipes);
+  const [recipes, setRecipes] = useState([]);
   const [recipeUrl, setRecipeUrl] = useState('');
   const [manualRecipe, setManualRecipe] = useState({
     title: '',
@@ -42,68 +16,113 @@ export function MyMealFeed({ userName }) {
     image: '',
   });
 
-  
   useEffect(() => {
-    console.log("Recipes loaded:", recipes.length);
-  }, []);
-
-  const addManualRecipe = () => {
-    const { title, url, description, image } = manualRecipe;
-    if (!title) {
-      alert("Title is required");
-      return;
+  async function loadRecipes() {
+    try {
+      const res = await fetch('/api/recipes', { credentials: 'include' });
+      if (!res.ok) throw new Error('Failed to fetch recipes');
+      const data = await res.json();
+      setRecipes(data);
+    } catch (err) {
+      console.error(err);
     }
+  }
+  loadRecipes();
+}, []);
 
-    const newRecipe = {
-      id: Date.now(),
-      title,
-      url: url || '#',
-      description: description || 'No description provided',
-      image: image || 'default.jpg',
-      comments: [],
-    };
+  const addManualRecipe = async () => {
+    const { title, url, description, image } = manualRecipe;
+    if (!title) return alert('Title is required');
 
-    setRecipes(prev => [...prev, newRecipe]);
-    setManualRecipe({ title: '', url: '', description: '', image: '' });
+    try {
+      const res = await fetch('/api/recipes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ title, url, description, image }),
+      });
+
+      if (!res.ok) throw new Error('Failed to add recipe');
+      const newRecipe = await res.json();
+      setRecipes(prev => [...prev, newRecipe]);
+      setManualRecipe({ title: '', url: '', description: '', image: '' });
+    } catch (err) {
+      console.error(err);
+      alert('Could not add recipe.');
+    }
   };
 
-
-  async function addRecipeFromUrl() {
+  const addRecipeFromUrl = async () => {
     if (!recipeUrl.trim()) return;
     try {
-      const res = await fetch(
-        `https://api.spoonacular.com/recipes/extract?url=${encodeURIComponent(recipeUrl)}&apiKey=${import.meta.env.VITE_SPOONACULAR_KEY}`
-      );
-      if (!res.ok) throw new Error(`Failed: ${res.status}`);
-      const data = await res.json();
-
-      const newRecipe = {
-        id: Date.now(),
-        title: data.title || 'Untitled Recipe',
-        url: data.sourceUrl || recipeUrl,
-        description: data.summary ? data.summary.replace(/<[^>]*>/g, '') : 'No description available',
-        image: data.image || 'https://via.placeholder.com/150',
-        comments: [],
-      };
-
+      setLoading(true);
+      const res = await fetch('/api/recipes/from-url', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ url: recipeUrl }),
+      });
+      if (!res.ok) throw new Error('Failed to generate recipe');
+      const newRecipe = await res.json();
       setRecipes(prev => [...prev, newRecipe]);
       setRecipeUrl('');
     } catch (err) {
-      console.error('Error adding recipe:', err);
+      console.error(err);
       alert('Could not extract recipe from that URL.');
+    } finally {
+      setLoading(false);
     }
-  }
+  };
+
+
+  const likeRecipe = async (recipeId) => {
+    try {
+      const res = await fetch(`/api/recipes/${recipeId}/like`, {
+        method: 'POST',
+        credentials: 'include',
+      });
+      if (!res.ok) throw new Error('Failed to like recipe');
+      const data = await res.json();
+    setRecipes(prev => prev.map(r =>
+      r.id === recipeId ? { ...r, likes: data.likes, likedByUser: data.likedByUser } : r
+    ));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const commentOnRecipe = async (recipeId, comment) => {
+    if (!comment.trim()) return;
+    try {
+      const res = await fetch(`/api/recipes/${recipeId}/comment`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ comment }),
+      });
+      if (!res.ok) throw new Error('Failed to comment');
+      const data = await res.json();
+      setRecipes(prev => prev.map(r => r.id === recipeId ? { ...r, comments: data.comments } : r));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
 
 
   return (
    <div className="mealfeed-container">
-      
-
       {/* Main recipe feed */}
       <main className="recipe-feed">
         {recipes.length === 0 && <p>No recipes yet. Add one from the sidebar!</p>}
         {recipes.map(recipe => (
-          <RecipeCard key={recipe.id} recipe={recipe} userName={userName} />
+          <RecipeCard
+            key={recipe.id}
+            recipe={recipe}
+            userName={userName}
+            onLike={likeRecipe}
+            onComment={commentOnRecipe}
+          />
         ))}
       </main>
 

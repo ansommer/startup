@@ -3,10 +3,13 @@ const app = express();
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcryptjs');
 const uuid = require('uuid');
+const fetch = require('node-fetch');
 
 const authCookieName = 'token';
+const SPOONACULAR_KEY = process.env.VITE_SPOONACULAR_KEY;
 
 let users = [];
+let recipes = [];
 
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
 
@@ -16,6 +19,7 @@ app.use(express.static('public'));
 
 var apiRouter = express.Router();
 app.use(`/api`, apiRouter);
+
 
 
 
@@ -57,15 +61,116 @@ apiRouter.delete('/auth/logout', async (req, res) => {
   res.status(204).end();
 });
 
+
 // Middleware to verify that the user is authorized to call an endpoint
 const verifyAuth = async (req, res, next) => {
   const user = await findUser('token', req.cookies[authCookieName]);
   if (user) {
+    req.user = user; // attach user to request
     next();
   } else {
     res.status(401).send({ msg: 'Unauthorized' });
   }
 };
+
+//post recipe manually
+apiRouter.post('/recipes', verifyAuth, (req, res) => {
+  const { title, url, description, image, userEmail } = req.body;
+
+  if (!title) return res.status(400).send({ msg: 'Title is required' });
+
+  const newRecipe = {
+    id: uuid.v4(),
+    title,
+    url: url || '#',
+    description: description || '',
+    image: image || 'default.jpg',
+    likes: 0,
+    likedBy: [],
+    comments: [],
+    userEmail: req.user.email, // optional, to track who posted it
+  };
+
+  recipes.push(newRecipe);
+  res.send(newRecipe);
+});
+
+
+//post recipe from url
+apiRouter.post('/recipes/from-url', verifyAuth, async (req, res) => {
+  const { url } = req.body;
+  if (!url) return res.status(400).send({ msg: 'URL is required' });
+
+  try {
+    const response = await fetch(`https://api.spoonacular.com/recipes/extract?url=${encodeURIComponent(url)}&apiKey=${SPOONACULAR_KEY}`);
+    if (!response.ok) throw new Error(`Spoonacular API error: ${response.status}`);
+
+    const data = await response.json();
+    const newRecipe = {
+      id: uuid.v4(),
+      title: data.title || 'Untitled Recipe',
+      url: data.sourceUrl || url,
+      description: data.summary ? data.summary.replace(/<[^>]*>/g, '') : 'No description available',
+      image: data.image || 'default.jpg',
+      likes: 0,
+      likedBy: [],
+      comments: [],
+      userEmail: req.user.email,
+    };
+
+    recipes.push(newRecipe);
+    res.send(newRecipe);
+  } catch (err) {
+    console.error('Error fetching recipe from URL:', err);
+    res.status(500).send({ msg: 'Could not fetch recipe from URL' });
+  }
+});
+
+// Toggle like/unlike
+apiRouter.post('/recipes/:id/like', verifyAuth, (req, res) => {
+  const recipe = recipes.find(r => r.id === req.params.id);
+  if (!recipe) return res.status(404).send({ msg: 'Recipe not found' });
+
+  const userEmail = req.user.email;
+
+  if (!recipe.likedBy) recipe.likedBy = [];
+
+  if (recipe.likedBy.includes(userEmail)) {
+    recipe.likes -= 1;
+    recipe.likedBy = recipe.likedBy.filter(email => email !== userEmail);
+  } else {
+    recipe.likes += 1;
+    recipe.likedBy.push(userEmail);
+  }
+
+  res.send({
+    likes: recipe.likes,
+    likedByUser: recipe.likedBy.includes(userEmail),
+  });
+});
+
+// Add a comment
+apiRouter.post('/recipes/:id/comment', verifyAuth, (req, res) => {
+  const recipe = recipes.find(r => r.id === req.params.id);
+  if (!recipe) return res.status(404).send({ msg: 'Recipe not found' });
+
+  const { comment } = req.body;
+  if (!comment) return res.status(400).send({ msg: 'Comment cannot be empty' });
+
+  const commentObj = `${comment} --${req.user.email}`;
+  recipe.comments.push(commentObj);
+  res.send({ comments: recipe.comments });
+});
+
+
+// Get all recipes
+apiRouter.get('/recipes', verifyAuth, (req, res) => {
+  const userEmail = req.user.email;
+  res.send(recipes.map(r => ({
+    ...r,
+    likedByUser: r.likedBy.includes(userEmail),
+  })));
+});
 
 
 // GetIngredients
