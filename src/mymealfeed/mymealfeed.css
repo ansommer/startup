@@ -17,13 +17,18 @@
 
 .recipe-title {
   margin-bottom: 0.5rem;
-  color: #000;
+  color: #a93d5b;
   text-align: left;
 }
 
 .recipe-title a {
-  color: inherit;        /* use the same color as .recipe-title */
-  text-decoration: none; /* remove the underline */
+  color: inherit;       
+  text-decoration: underline; 
+  transition: color 0.3s ease; 
+}
+
+.recipe-title a:hover {
+  color: #cc5e7d;              
 }
 
 .recipe-description {
@@ -40,4 +45,65 @@
   font-size: 0.9rem;
   color: #333; /* ← change this to make comments easier to see */
   text-align: left;
+}
+
+/* Container for sidebar + main feed */
+.mealfeed-container {
+  display: flex;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  gap: 1rem; /* optional spacing between sidebar and main feed */
+}
+
+/* Sidebar for adding recipes */
+.recipe-sidebar {
+  width: 300px;
+  padding: 1rem;
+  border-right: 1px solid #ccc;
+  background-color: #f9f9f9;
+  box-sizing: border-box;
+  border-radius: 10px;
+}
+
+.recipe-sidebar h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  text-align: left;
+}
+
+/* Inputs in sidebar */
+.recipe-sidebar input {
+  width: 100%;
+  margin-bottom: 0.5rem;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+/* Buttons in sidebar */
+.recipe-sidebar .btn {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+/* Main feed */
+.recipe-feed {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+/* Responsive: stack sidebar on small screens */
+@media (max-width: 768px) {
+  .mealfeed-container {
+    flex-direction: column;
+  }
+  
+  .recipe-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #ccc;
+  }
 }

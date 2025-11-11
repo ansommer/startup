@@ -24,7 +24,7 @@ export async function fetchRecipesByIngredients(ingredients) {
 
   // First, find recipes by ingredients
   const query = ingredients.join(',');
-  const searchUrl = `${BASE_URL}/recipes/findByIngredients?ingredients=${encodeURIComponent(query)}&number=10&apiKey=${API_KEY}`;
+  const searchUrl = `${BASE_URL}/recipes/findByIngredients?ingredients=${encodeURIComponent(query)}&number=3&apiKey=${API_KEY}`;
   
   const searchRes = await fetch(searchUrl);
   if (!searchRes.ok) throw new Error(`Spoonacular API error: ${searchRes.status}`);
@@ -55,4 +55,19 @@ export async function fetchRecipesByIngredients(ingredients) {
   );
 
   return recipesWithUrls;
+}
+
+export async function fetchRecipeFromUrl(url) {
+  if (!url) throw new Error('No URL provided');
+  const res = await fetch(
+    `${BASE_URL}/recipes/extract?url=${encodeURIComponent(url)}&apiKey=${API_KEY}`
+  );
+  if (!res.ok) throw new Error(`Spoonacular API error: ${res.status}`);
+  const data = await res.json();
+  return {
+    title: data.title,
+    sourceUrl: data.sourceUrl,
+    summary: data.summary,
+    image: data.image,
+  };
 }
