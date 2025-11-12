@@ -6,6 +6,7 @@ const client = new MongoClient(url);
 const db = client.db('startup');
 const userCollection = db.collection('startupUser');
 const recipeCollection = db.collection('recipe');
+const quotaCollection = db.collection('quota'); 
 
 
 // This will asynchronously test the connection and exit the process if it fails
@@ -35,14 +36,50 @@ async function updateUser(startupUser) {
   await userCollection.updateOne({ email: startupUser.email }, { $set: startupUser });
 }
 
+async function GetIngredients(userEmail) {
+  const user = await userCollection.findOne({ email: userEmail });
+  return user ? user.ingredients : [];
+}
+
 async function addRecipe(recipe) {
   await recipeCollection.insertOne(recipe);
 }
+
+async function getRecipeById(id) {
+  return recipeCollection.findOne({ id: id });
+}
+
+async function updateRecipe(recipe) {
+  await recipeCollection.updateOne({ id: recipe.id }, { $set: recipe });
+}
+
+async function getAllRecipes() {
+  return recipeCollection.find({}).toArray();
+}
+
+async function getQuota() {
+  return quotaCollection.findOne({ _id: 'spoonacular' });  
+}
+
+async function updateQuota(used, left) {
+  await quotaCollection.updateOne(
+    { _id: 'spoonacular' },
+    { $set: { used, left } },
+    { upsert: true }
+  );
+}
+
 
 module.exports = {
   getUser,
   getUserByToken,
   addUser,
   updateUser,
-  addRecipe
+  addRecipe, 
+  getRecipeById,
+  updateRecipe,
+  getAllRecipes,
+  GetIngredients,
+  getQuota,
+  updateQuota,
 };

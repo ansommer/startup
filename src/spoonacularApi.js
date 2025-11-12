@@ -40,10 +40,10 @@ export async function fetchRecipesByIngredients(ingredients) {
   const searchRes = await fetch(searchUrl);
   if (!searchRes.ok) throw new Error(`Spoonacular API error: ${searchRes.status}`);
   const recipes = await searchRes.json();
-
+  
   const quotaUsed = searchRes.headers.get('x-api-quota-used');
   const quotaLeft = searchRes.headers.get('x-api-quota-left');
-
+  console.log(`Spoonacular quota used: ${quotaUsed}, left: ${quotaLeft}`);
   checkQuota(quotaLeft);
   // Now fetch full recipe info for each recipe to get the valid sourceUrl
   const recipesWithUrls = await Promise.all(

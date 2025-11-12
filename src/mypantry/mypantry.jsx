@@ -113,6 +113,24 @@ React.useEffect(() => {
     }
   };
 
+  React.useEffect(() => {
+    async function fetchQuota() {
+      try {
+        const res = await fetch('/api/quota', { credentials: 'include' });
+        if (res.ok) {
+          const data = await res.json();
+          // Expecting { used, left } from API
+          setQuota({ used: data.used, left: data.left });
+        }
+      } catch (err) {
+        console.error('Failed to fetch quota:', err);
+      }
+    }
+
+    fetchQuota();
+  }, []);
+
+
   const generateRecipes = async () => {
       const selectedIngredients = ingredients
         .filter(i => i.checked)
@@ -157,13 +175,20 @@ React.useEffect(() => {
         const { recipesList, quotaUsed, quotaLeft } = await fetchRecipesByIngredients(validIngredients);
         setRecipes(recipesList);
 
-        if (quotaUsed && quotaLeft) {
+         if (quotaUsed != null && quotaLeft != null) {
           setQuota({ used: quotaUsed, left: quotaLeft });
+
+          // Also persist to DB
+          await fetch('/api/quota', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ used: quotaUsed, left: quotaLeft }),
+          });
+
           if (Number(quotaLeft) <= 5) {
             const message = 'Spoonacular daily limit almost reached — please try again tomorrow.';
             setWarning(message);
-            console.warn(message);
-            alert(message); 
+            alert(message);
           } else {
             setWarning('');
           }
@@ -256,6 +281,13 @@ React.useEffect(() => {
           }}
         />
       </div>
+
+      <p style={{ marginTop: '0.5rem' }}>
+        <strong>Spoonacular usage:</strong>{' '}
+        {quota.used !== null && quota.left !== null
+          ? `${quota.used} used / ${quota.left} left today`
+          : 'No quota data yet'}
+      </p>
 
       {/* Warning */}
       {warning && (

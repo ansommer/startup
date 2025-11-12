@@ -130,8 +130,8 @@ apiRouter.post('/recipes/from-url', verifyAuth, async (req, res) => {
 });*/
 
 // Toggle like/unlike
-apiRouter.post('/recipes/:id/like', verifyAuth, (req, res) => {
-  const recipe = recipes.find(r => r.id === req.params.id);
+apiRouter.post('/recipes/:id/like', verifyAuth, async (req, res) => {
+  const recipe = await DB.getRecipeById(req.params.id);
   if (!recipe) return res.status(404).send({ msg: 'Recipe not found' });
 
   const userEmail = req.user.email;
@@ -141,9 +141,11 @@ apiRouter.post('/recipes/:id/like', verifyAuth, (req, res) => {
   if (recipe.likedBy.includes(userEmail)) {
     recipe.likes -= 1;
     recipe.likedBy = recipe.likedBy.filter(email => email !== userEmail);
+    await DB.updateRecipe(recipe);
   } else {
     recipe.likes += 1;
     recipe.likedBy.push(userEmail);
+    await DB.updateRecipe(recipe);
   }
 
   res.send({
@@ -153,8 +155,8 @@ apiRouter.post('/recipes/:id/like', verifyAuth, (req, res) => {
 });
 
 // Add a comment
-apiRouter.post('/recipes/:id/comment', verifyAuth, (req, res) => {
-  const recipe = recipes.find(r => r.id === req.params.id);
+apiRouter.post('/recipes/:id/comment', verifyAuth, async (req, res) => {
+  const recipe = await DB.getRecipeById(req.params.id);
   if (!recipe) return res.status(404).send({ msg: 'Recipe not found' });
 
   const { comment } = req.body;
@@ -162,26 +164,59 @@ apiRouter.post('/recipes/:id/comment', verifyAuth, (req, res) => {
 
   const commentObj = `${comment} --${req.user.email}`;
   recipe.comments.push(commentObj);
+  await DB.updateRecipe(recipe);
   res.send({ comments: recipe.comments });
 });
 
 
-// Get all recipes
-apiRouter.get('/recipes', verifyAuth, (req, res) => {
-  const userEmail = req.user.email;
-  res.send(recipes.map(r => ({
+apiRouter.get('/recipes', verifyAuth, async (req, res) => {
+  const allRecipes = await DB.getAllRecipes();  const userEmail = req.user.email;
+  res.send(allRecipes.map(r => ({
     ...r,
-    likedByUser: r.likedBy.includes(userEmail),
+    likedByUser: (r.likedBy || []).includes(userEmail),
   })));
 });
 
 
 // GetIngredients
 apiRouter.get('/ingredients', verifyAuth, async (req, res) => {
-  const user = await findUser('token', req.cookies[authCookieName]);
-  if (!user) return res.status(404).send({ msg: 'User not found' });
-  res.send(user.ingredients || []);
+  try {
+    const user = await DB.getUser(req.user.email);  // use DB module
+    if (!user) {
+      return res.status(404).send({ message: 'User not found' });
+    }
+    res.send(user.ingredients || []);  // return the ingredients array
+  } catch (err) {
+    console.error('Error fetching ingredients:', err);
+    res.status(500).send({ message: 'Internal Server Error' });
+  }
 });
+
+  apiRouter.get('/quota', async (_req, res) => {
+    try {
+      const quota = await DB.getQuota();
+      if (!quota) return res.send({ used: null, left: null });
+      res.send({ used: quota.used, left: quota.left });
+    } catch (err) {
+      console.error('Error fetching quota:', err);
+      res.status(500).send({ message: 'Internal server error' });
+    }
+  });
+
+  apiRouter.post('/quota', async (req, res) => {
+    const { used, left } = req.body;
+    if (used == null || left == null) {
+      return res.status(400).send({ msg: 'Missing quota values' });
+    }
+
+    try {
+      await DB.updateQuota(used, left);
+      res.send({ msg: 'Quota updated' });
+    } catch (err) {
+      console.error('Error updating quota:', err);
+      res.status(500).send({ message: 'Internal server error' });
+    }
+  });
 
 // SubmitIngredients
 apiRouter.post('/ingredients', verifyAuth, async (req, res) => {
