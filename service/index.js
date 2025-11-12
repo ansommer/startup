@@ -75,7 +75,8 @@ const verifyAuth = async (req, res, next) => {
 };
 
 //post recipe manually
-apiRouter.post('/recipes', verifyAuth, (req, res) => {
+apiRouter.post('/recipes', verifyAuth, async (req, res) => {
+  
   const { title, url, description, image, userEmail } = req.body;
 
   if (!title) return res.status(400).send({ msg: 'Title is required' });
@@ -89,10 +90,11 @@ apiRouter.post('/recipes', verifyAuth, (req, res) => {
     likes: 0,
     likedBy: [],
     comments: [],
-    userEmail: req.user.email, // optional, to track who posted it
+    userEmail: req.user.email,
   };
 
-  recipes.push(newRecipe);
+  //recipes.push(newRecipe);
+  await DB.addRecipe(newRecipe);
   res.send(newRecipe);
 });
 
