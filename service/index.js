@@ -4,12 +4,10 @@ const cookieParser = require('cookie-parser');
 const bcrypt = require('bcryptjs');
 const uuid = require('uuid');
 const fetch = require('node-fetch');
+const DB = require('./database.js');
 
 const authCookieName = 'token';
 const SPOONACULAR_KEY = process.env.VITE_SPOONACULAR_KEY;
-
-let users = [];
-let recipes = [];
 
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
 
@@ -20,7 +18,8 @@ app.use(express.static('public'));
 var apiRouter = express.Router();
 app.use(`/api`, apiRouter);
 
-
+//let users = [];
+let recipes = [];
 
 
 // CreateAuth a new user
@@ -43,6 +42,7 @@ apiRouter.post('/auth/login', async (req, res) => {
   if (user) {
     if (await bcrypt.compare(req.body.password, user.password)) {
       user.token = uuid.v4();
+      await DB.updateUser(user);
       setAuthCookie(res, user.token);
       res.send({ email: user.email });
       return;
@@ -56,6 +56,7 @@ apiRouter.delete('/auth/logout', async (req, res) => {
   const user = await findUser('token', req.cookies[authCookieName]);
   if (user) {
     delete user.token;
+    await DB.updateUser(user); // in simon it doesn't say await
   }
   res.clearCookie(authCookieName);
   res.status(204).end();
@@ -96,7 +97,7 @@ apiRouter.post('/recipes', verifyAuth, (req, res) => {
 });
 
 
-//post recipe from url
+/*post recipe from url
 apiRouter.post('/recipes/from-url', verifyAuth, async (req, res) => {
   const { url } = req.body;
   if (!url) return res.status(400).send({ msg: 'URL is required' });
@@ -124,7 +125,7 @@ apiRouter.post('/recipes/from-url', verifyAuth, async (req, res) => {
     console.error('Error fetching recipe from URL:', err);
     res.status(500).send({ msg: 'Could not fetch recipe from URL' });
   }
-});
+});*/
 
 // Toggle like/unlike
 apiRouter.post('/recipes/:id/like', verifyAuth, (req, res) => {
@@ -174,14 +175,17 @@ apiRouter.get('/recipes', verifyAuth, (req, res) => {
 
 
 // GetIngredients
-apiRouter.get('/ingredients', verifyAuth, (req, res) => {
-  const user = users.find(u => u.token === req.cookies[authCookieName]);
-  res.send(user.ingredients);
+apiRouter.get('/ingredients', verifyAuth, async (req, res) => {
+  const user = await findUser('token', req.cookies[authCookieName]);
+  if (!user) return res.status(404).send({ msg: 'User not found' });
+  res.send(user.ingredients || []);
 });
 
 // SubmitIngredients
-apiRouter.post('/ingredients', verifyAuth, (req, res) => {
-  const user = users.find(u => u.token === req.cookies[authCookieName]);
+apiRouter.post('/ingredients', verifyAuth, async (req, res) => {
+  const user = await findUser('token', req.cookies[authCookieName]);
+  if (!user) return res.status(404).send({ msg: 'User not found' });
+
   const ingredient = req.body.ingredient;
   if (!ingredient || typeof ingredient !== 'string') {
     return res.send(user.ingredients);
@@ -190,6 +194,7 @@ apiRouter.post('/ingredients', verifyAuth, (req, res) => {
   const normalized = ingredient.trim().toLowerCase();
   if (!user.ingredients.includes(normalized)) {
     user.ingredients.push(normalized);
+    await DB.updateUser(user);  // persist to DB
   }
 
   user.ingredients.sort((a, b) => a.localeCompare(b));
@@ -199,12 +204,15 @@ apiRouter.post('/ingredients', verifyAuth, (req, res) => {
 });
 
 // DELETE an ingredient
-apiRouter.delete('/ingredients', verifyAuth, (req, res) => {
-  const user = users.find(u => u.token === req.cookies[authCookieName]);
+apiRouter.delete('/ingredients', verifyAuth, async (req, res) => {
+  const user = await findUser('token', req.cookies[authCookieName]);
+  if (!user) return res.status(404).send({ msg: 'User not found' });
+
   const ingredientName = req.body.ingredient?.toLowerCase();
   if (!ingredientName) return res.status(400).send({ msg: 'Missing ingredient name' });
 
   user.ingredients = user.ingredients.filter(i => i !== ingredientName);
+  await DB.updateUser(user);  // persist to DB
   console.log(`Ingredients for ${user.email}:`, user.ingredients);
 
   res.send(user.ingredients);
@@ -249,15 +257,18 @@ async function createUser(email, password) {
     token: uuid.v4(),
     ingredients: [],
   };
-  users.push(user);
-  console.log('Current users:', users.map(u => u.email));
+  await DB.addUser(user);
+  //console.log('Current users:', users.map(u => u.email));
   return user;
 }
 
 async function findUser(field, value) {
   if (!value) return null;
 
-  return users.find((u) => u[field] === value);
+  if (field === 'token') {
+    return DB.getUserByToken(value);
+  }
+  return DB.getUser(value);
 }
 
 // setAuthCookie in the HTTP response
