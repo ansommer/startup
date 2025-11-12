@@ -64,6 +64,8 @@ node index.js (from the service directory)
 
 refresh mongo :)
 
+I'm not sure if I keep putting the installs in the wrong place or what but every time I try to deploy I have problems with it even though I KNOW I already installed them. Also note to self never change the password ever again. What a hassle.
+
 ## Notes for the midterm
 
 <details>
