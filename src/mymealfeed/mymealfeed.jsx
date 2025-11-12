@@ -54,6 +54,8 @@ export function MyMealFeed({ userName }) {
   const addManualRecipe = async () => {
     const { title, url, description, image } = manualRecipe;
     if (!title) return alert('Title is required');
+    if (!url) return alert('URL is required');
+    if (!description) return alert('Description is required');
 
     try {
       const res = await fetch('/api/recipes', {
@@ -179,7 +181,7 @@ export function MyMealFeed({ userName }) {
         />
         <input
           type="text"
-          placeholder="URL (optional)"
+          placeholder="URL"
           value={manualRecipe.url}
           onChange={e => setManualRecipe(prev => ({ ...prev, url: e.target.value }))}
         />

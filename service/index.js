@@ -80,13 +80,15 @@ apiRouter.post('/recipes', verifyAuth, async (req, res) => {
   const { title, url, description, image, userEmail } = req.body;
 
   if (!title) return res.status(400).send({ msg: 'Title is required' });
+  if (!url) return res.status(400).send({ msg: 'URL is required' });
+  if (!description) return res.status(400).send({ msg: 'Description is required' });
 
   const newRecipe = {
     id: uuid.v4(),
     title,
     url: url || '#',
     description: description || '',
-    image: image || 'default.jpg',
+    image: image || 'placeholder.png',
     likes: 0,
     likedBy: [],
     comments: [],
