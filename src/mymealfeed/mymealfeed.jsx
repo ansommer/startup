@@ -2,6 +2,8 @@
 import './mymealfeed.css';
 import { RecipeCard } from './recipecard';
 import React, { useState, useEffect } from 'react';
+import { feedNotifier, recipeCardEvent } from './userInteraction';
+
 //import { fetchRecipeFromUrl } from '../spoonacularApi';
 
 
@@ -35,6 +37,29 @@ export function MyMealFeed({ userName }) {
         console.error('Failed to fetch quota:', err);
       }
     }*/
+
+  useEffect(() => {
+    const handleEvent = (event) => {
+      if (event.type === recipeCardEvent.Like) {
+        setRecipes(prev => prev.map(r => 
+          r.id === event.value.recipeId ? { ...r, likes: event.value.likes, likedByUser: event.value.liked } : r
+        ));
+      }
+      if (event.type === recipeCardEvent.Comment) {
+        setRecipes(prev => prev.map(r =>
+          r.id === event.value.recipeId ? { ...r, comments:event.value.comments } : r
+        ));
+      }
+    };
+
+    feedNotifier.addHandler(handleEvent);
+
+    return () => {
+      feedNotifier.removeHandler(handleEvent);
+    };
+  }, []);
+
+
 
   useEffect(() => {
   async function loadRecipes() {
@@ -95,18 +120,21 @@ export function MyMealFeed({ userName }) {
 
 
   const likeRecipe = async (recipeId) => {
+    let newLikedState;
+
     try {
       const res = await fetch(`/api/recipes/${recipeId}/like`, {
         method: 'POST',
         credentials: 'include',
       });
       if (!res.ok) throw new Error('Failed to like recipe');
-      const data = await res.json();
-    setRecipes(prev => prev.map(r =>
-      r.id === recipeId ? { ...r, likes: data.likes, likedByUser: data.likedByUser } : r
-    ));
-    feedEventNotifier.broadcastEvent(userName, recipeCardEvent.Like, {recipeId: recipeId, liked: data.likedByUser})
 
+      const data = await res.json();
+      // Reconcile local state with server
+      setRecipes(prev => prev.map(r =>
+        r.id === recipeId ? { ...r, likes: data.likes, likedByUser: data.likedByUser } : r
+      ));
+      feedNotifier.broadcastEvent(userName, recipeCardEvent.Like, { recipeId, likes: data.likes, liked: data.likedByUser });
     } catch (err) {
       console.error(err);
     }
@@ -114,17 +142,24 @@ export function MyMealFeed({ userName }) {
 
   const commentOnRecipe = async (recipeId, comment) => {
     if (!comment.trim()) return;
+
+    let newComment = comment;
     try {
       const res = await fetch(`/api/recipes/${recipeId}/comment`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ comment }),
+        body: JSON.stringify({ comment: newComment }),
       });
+
       if (!res.ok) throw new Error('Failed to comment');
       const data = await res.json();
-      setRecipes(prev => prev.map(r => r.id === recipeId ? { ...r, comments: data.comments } : r));
-      feedEventNotifier.broadcastEvent(userName, recipeCardEvent.Comment, { recipeId: recipeId, comment: comment })
+
+      // Reconcile local state with server response
+      setRecipes(prev => prev.map(r =>
+        r.id === recipeId ? { ...r, comments: data.comments } : r
+      ));
+      feedNotifier.broadcastEvent(userName, recipeCardEvent.Comment, { recipeId, comments: data.comments });
     } catch (err) {
       console.error(err);
     }
