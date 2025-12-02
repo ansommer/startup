@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs');
 const uuid = require('uuid');
 const fetch = require('node-fetch');
 const DB = require('./database.js');
+const { peerProxy } = require('./peerProxy.js');
 
 const authCookieName = 'token';
 const SPOONACULAR_KEY = process.env.VITE_SPOONACULAR_KEY;
@@ -319,7 +320,7 @@ function setAuthCookie(res, authToken) {
   });
 }
 
-app.listen(port, '0.0.0.0', () => {
+const httpService = app.listen(port, '0.0.0.0', () => {
   console.log(`Listening on port ${port}`);
 });
 

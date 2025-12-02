@@ -105,6 +105,8 @@ export function MyMealFeed({ userName }) {
     setRecipes(prev => prev.map(r =>
       r.id === recipeId ? { ...r, likes: data.likes, likedByUser: data.likedByUser } : r
     ));
+    feedEventNotifier.broadcastEvent(userName, recipeCardEvent.Like, {recipeId: recipeId, liked: data.likedByUser})
+
     } catch (err) {
       console.error(err);
     }
@@ -122,6 +124,7 @@ export function MyMealFeed({ userName }) {
       if (!res.ok) throw new Error('Failed to comment');
       const data = await res.json();
       setRecipes(prev => prev.map(r => r.id === recipeId ? { ...r, comments: data.comments } : r));
+      feedEventNotifier.broadcastEvent(userName, recipeCardEvent.Comment, { recipeId: recipeId, comment: comment })
     } catch (err) {
       console.error(err);
     }
