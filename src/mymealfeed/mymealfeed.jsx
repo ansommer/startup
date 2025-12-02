@@ -50,6 +50,9 @@ export function MyMealFeed({ userName }) {
           r.id === event.value.recipeId ? { ...r, comments:event.value.comments } : r
         ));
       }
+      if (event.type === recipeCardEvent.RecipeCard) {
+        setRecipes(prev => [...prev, event.value.recipe]);
+      }
     };
 
     feedNotifier.addHandler(handleEvent);
@@ -93,6 +96,7 @@ export function MyMealFeed({ userName }) {
       if (!res.ok) throw new Error('Failed to add recipe');
       const newRecipe = await res.json();
       setRecipes(prev => [...prev, newRecipe]);
+      feedNotifier.broadcastEvent(userName, recipeCardEvent.RecipeCard, { recipe: newRecipe });
       setManualRecipe({ title: '', url: '', description: '', image: '' });
     } catch (err) {
       console.error(err);
