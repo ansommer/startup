@@ -2,7 +2,7 @@
 import './mymealfeed.css';
 import { RecipeCard } from './recipecard';
 import React, { useState, useEffect } from 'react';
-import { feedNotifier, recipeCardEvent } from './userInteraction';
+import { feedNotifier, recipeCardEvent } from './feedEventNotifier';
 
 //import { fetchRecipeFromUrl } from '../spoonacularApi';
 

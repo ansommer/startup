@@ -66,6 +66,10 @@ refresh mongo :)
 
 I'm not sure if I keep putting the installs in the wrong place or what but every time I try to deploy I have problems with it even though I KNOW I already installed them. Also note to self never change the password ever again. What a hassle.
 
+## Websocket
+Alright so it looks like the peerProxy mainly just sends the messages out to everyone, and makes sure all the connections are still alive with pings and pongs. Meanwhile the notifier has the message object, and the broadcast function kinda creates that message and sends it out. So in mymealfeed, when something like a like happens, I can send out a broadcast. Then the eventHandler sees there was an event, and updates the page appropriately
+Also got stuck for a bit because I forgot to change my vite.config....oops.
+
 ## Notes for the midterm
 
 <details>
