@@ -13,6 +13,23 @@ export default function App() {
   const currentAuthState = userName ? AuthState.Authenticated : AuthState.Unauthenticated;
   const [authState, setAuthState] = React.useState(currentAuthState);
 
+  React.useEffect(() => {
+    const keepAlive = () => {
+      fetch('/api/auth/keep-alive', { method: 'POST', credentials: 'include' });
+    };
+
+    // Refresh on user events
+    window.addEventListener('mousemove', keepAlive);
+    window.addEventListener('keydown', keepAlive);
+    window.addEventListener('click', keepAlive);
+
+    return () => {
+      window.removeEventListener('mousemove', keepAlive);
+      window.removeEventListener('keydown', keepAlive);
+      window.removeEventListener('click', keepAlive);
+    };
+  }, []);
+
   return (
     <BrowserRouter>
       <div className="body text-light">

@@ -311,12 +311,14 @@ async function findUser(field, value) {
   return DB.getUser(value);
 }
 
+
 // setAuthCookie in the HTTP response
 function setAuthCookie(res, authToken) {
   res.cookie(authCookieName, authToken, {
     secure: true,
     httpOnly: true,
     sameSite: 'strict',
+    maxAge: 5 * 60 * 1000, // 5 minutes
   });
 }
 
