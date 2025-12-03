@@ -37,8 +37,14 @@ export function Unauthenticated(props) {
     }
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault(); // prevent page reload
+    loginUser();
+  };
+
   return (
     <>
+    <form onSubmit={handleSubmit}>
       <div>
         <div className="input-group mb-3">
             <input className="form-control" type="text" value={userName} onChange={(e) => setUserName(e.target.value)} placeholder="your@email.com" />
@@ -47,16 +53,19 @@ export function Unauthenticated(props) {
             <input className="form-control" type="password" onChange={(e) => setPassword(e.target.value)} placeholder="password" />
           </div>
           <div className="d-flex justify-content-center gap-2">
-            <button className="btn btn-primary" onClick={() => loginUser()} disabled={!userName || !password}>
+            <button type="submit" className="btn btn-primary" disabled={!userName || !password}>
               Login
               </button>
-            <button className="btn btn-outline-secondary" onClick={() => createUser()} disabled={!userName || !password}>
+            <button type="button" className="btn btn-outline-secondary" onClick={() => createUser()} disabled={!userName || !password}>
               Create
               </button>
           </div>
-      </div>
+        </div>
+      </form>
 
       <MessageDialog message={displayError} onHide={() => setDisplayError(null)} />
     </>
   );
 }
+
+//onClick={() => loginUser()}
