@@ -19,25 +19,7 @@ export function MyMealFeed({ userName }) {
     image: '',
   });
 
-  //const [quota, setQuota] = useState({ used: null, left: null });
-  //const [warning, setWarning] = useState('');
-
-  /*async function fetchQuota() {
-      try {
-        const dummyIngredients = ['egg']; // small, cheap ingredient
-        const { quotaUsed, quotaLeft } = await fetchRecipesByIngredients(dummyIngredients);
-        setQuota({ used: quotaUsed, left: quotaLeft });
   
-        if (Number(quotaLeft) <= 5) {
-          setWarning('Spoonacular daily limit almost reached — please try again tomorrow.');
-        } else {
-          setWarning('');
-        }
-      } catch (err) {
-        console.error('Failed to fetch quota:', err);
-      }
-    }*/
-
   useEffect(() => {
     const handleEvent = (event) => {
       if (event.type === recipeCardEvent.Like) {
@@ -103,24 +85,6 @@ export function MyMealFeed({ userName }) {
       alert('Could not add recipe.');
     }
   };
-
-  /*const addRecipeFromUrl = async () => {
-    if (!recipeUrl.trim()) return;
-      try {
-        setLoading(true);
-        const newRecipe = await fetchRecipeFromUrl(recipeUrl, setQuota);
-        setRecipes(prev => [...prev, newRecipe]);
-        setRecipeUrl('');
-        if (Number(newRecipe.quotaLeft) <= 5) {
-          setWarning('Spoonacular daily limit almost reached — please try again tomorrow.');
-        }
-      } catch (err) {
-        console.error(err);
-        alert(err.message || 'Could not extract recipe from that URL.');
-      } finally {
-        setLoading(false);
-      }
-  };*/
 
 
   const likeRecipe = async (recipeId) => {
@@ -189,30 +153,6 @@ export function MyMealFeed({ userName }) {
 
       {/* Sidebar */}
       <aside className="recipe-sidebar">
-        {/*<h3>Generate from URL</h3>
-        <input
-          type="text"
-          placeholder="Paste recipe link"
-          value={recipeUrl}
-          onChange={e => setRecipeUrl(e.target.value)}
-          onKeyDown={e => e.key === 'Enter' && addRecipeFromUrl()}
-        />
-        {quota.left !== null && Number(quota.left) <= 5 && (
-          <p style={{ color: 'red', marginTop: '0.5rem' }}>{warning}</p>
-        )}
-        <button
-          className="btn btn-primary"
-          onClick={addRecipeFromUrl}
-          disabled={loading || (quota.left !== null && Number(quota.left) <= 5)}
-        >
-          {loading ? 'Loading...' : 'Generate Recipe'}
-        </button>
-
-        {quota.used !== null && (
-          <p style={{ marginTop: '0.5rem', color: '#666' }}>
-            Spoonacular API usage today: <b>{quota.used}</b> used / <b>{quota.left}</b> left
-          </p>
-        )} */}
 
         <h3>Add Manually</h3>
         <input
