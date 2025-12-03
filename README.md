@@ -112,14 +112,14 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
 - [x] **Stores data in MongoDB** - Stores quota, recipies, and 
-- [x] **Stores credentials in MongoDB** - I did not complete this part of the deliverable.
+- [x] **Stores credentials in MongoDB** - It does
 
 ## 🚀 WebSocket deliverable
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Backend listens for WebSocket connection** - I did not complete this part of the deliverable.
-- [ ] **Frontend makes WebSocket connection** - I did not complete this part of the deliverable.
-- [ ] **Data sent over WebSocket connection** - I did not complete this part of the deliverable.
-- [ ] **WebSocket data displayed** - I did not complete this part of the deliverable.
-- [ ] **Application is fully functional** - I did not complete this part of the deliverable.
+- [x] **Backend listens for WebSocket connection** - Yes
+- [x] **Frontend makes WebSocket connection** - It does
+- [x] **Data sent over WebSocket connection** - likes, comments, and recipes
+- [x] **WebSocket data displayed** - Correct.
+- [x] **Application is fully functional** - Always more I could add but currently functional
