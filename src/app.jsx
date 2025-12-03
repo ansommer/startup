@@ -9,9 +9,25 @@ import { MyMealFeed } from './mymealfeed/mymealfeed';
 import { MyPantry } from './mypantry/mypantry';
 
 export default function App() {
-  const [userName, setUserName] = React.useState(localStorage.getItem('userName') || '');
-  const currentAuthState = userName ? AuthState.Authenticated : AuthState.Unauthenticated;
-  const [authState, setAuthState] = React.useState(currentAuthState);
+  const [userName, setUserName] = React.useState('');
+  //const currentAuthState = userName ? AuthState.Authenticated : AuthState.Unauthenticated;
+  const [authState, setAuthState] = React.useState(AuthState.Unauthenticated);
+
+  React.useEffect(() => {
+  fetch('/api/auth/whoami', { credentials: 'include' })
+    .then(res => res.json())
+    .then(data => {
+      if (data.userName) {
+        setUserName(data.userName);
+        setAuthState(AuthState.Authenticated);
+      }
+    })
+    .catch(() => {
+      setUserName('');
+      setAuthState(AuthState.Unauthenticated);
+    });
+}, []);
+
 
   React.useEffect(() => {
     const keepAlive = () => {
