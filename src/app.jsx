@@ -65,7 +65,9 @@ export default function App() {
                   {authState === AuthState.Authenticated && (
                   <li className="nav-item"><NavLink className="nav-link" to="/mypantry">My Pantry</NavLink></li>
                   )}
+                  {authState === AuthState.Authenticated && (
                   <li className="nav-item"><NavLink className="nav-link" to="/mymealfeed">My Meal Feed</NavLink></li>
+                  )}
                 </ul>
               </div>
             </div>
