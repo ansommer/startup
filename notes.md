@@ -1,3 +1,79 @@
+#Final Notes
+
+-What is the default port for HTTP/HTTPS/SSH? 
+HTTP - 80, HTTPS - 443, SSH - 22
+
+-What does an HTTP status code in the range of 300/400/500 indicate?
+300 - Redirection, 400 - Client Error, 500 - Server Error
+
+-What does the HTTP header content-type allow you to do?
+
+-What does a “Secure cookie”/”Http-only cookie”/”Same-site cookie” do? 
+Secure cookie can only be sent over https. Http only can't be accessed by javascript (Helps prevent cookies from being stolen via XSS (cross-site scripting) attacks). Same-site can be set to strict(cookies only sent around same site), lax, or none(can be sent across sites).
+
+-Given the following MongoDB query, select all of the matching documents {name:Mark}
+It has to 100% match exactly
+
+-How should user passwords be stored?
+with hashing and things like that
+
+-What is the websocket protocol intended to provide?
+Make it so the client and server can communicate
+
+-What do the following acronyms stand for? JSX, JS, AWS, NPM, NVM
+JavaScript XML (lets you write html in javascript), JavaScript, AmazonWebServices, Node Package Manager, Node Version Manager
+
+-What are React Hooks used for?
+UseState-let's react remember things and UseEffect-changes things when a certain event happesn
+
+-What does the State Hook/Context Hook/Ref Hook/Effect Hook/Performance Hook do? 
+State hook- The component can remember info between renders (Ex. user input)
+Context Hook- can get properties from distant parents
+Ref Hook - component can hold info that isn’t used for rendering, like a DOM node or a timeout ID
+Effect Hook - a side effect happens (ex. a console log). Effects let a component connect to and synchronize with external systems. This includes dealing with network, browser DOM, animations, widgets written using a different UI library, and other non-React code.
+Performance Hook - skip uneccessary work by remembering stuff
+  -useMemo lets you cache the result of an expensive calculation.
+  -useCallback lets you cache a function definition before passing it down to an optimized component.
+
+-What does the package.json file do?
+What the project is, What it needs to run, How to run/build/test it
+NPM definition for package dependencies and script commands. This is what maps npm run dev to actually start up Vite
+
+-What does the fetch function do?
+make network requests to retrieve or send data, usually from/to a server. It’s part of the modern web API and returns a Promise, making it easy to work with asynchronous operations.
+
+-What does node.js do?
+Node.js allows you to write server-side applications in JavaScript.
+It can handle tasks like: Serving web pages (HTTP server), Reading/writing files, Connecting to databases, Running scripts and automations
+
+-What does pm2 do?
+It's basically a way to more easily manage your proccesses.
+
+| Command                                                    | Purpose                                                                          |
+| ---------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| **pm2 ls**                                                 | List all of the hosted node processes                                            |
+| **pm2 monit**                                              | Visual monitor                                                                   |
+| **pm2 start index.js -n simon**                            | Add a new process with an explicit name                                          |
+| **pm2 start index.js -n startup -- 4000**                  | Add a new process with an explicit name and port parameter                       |
+| **pm2 stop simon**                                         | Stop a process                                                                   |
+| **pm2 restart simon**                                      | Restart a process                                                                |
+| **pm2 delete simon**                                       | Delete a process from being hosted                                               |
+| **pm2 delete all**                                         | Delete all processes                                                             |
+| **pm2 save**                                               | Save the current processes across reboot                                         |
+| **pm2 restart all**                                        | Reload all of the processes                                                      |
+| **pm2 restart simon --update-env**                         | Reload process and update the node version to the current environment definition |
+| **pm2 update**                                             | Reload pm2                                                                       |
+| **pm2 start env.js --watch --ignore-watch="node_modules"** | Automatically reload service when index.js changes                               |
+| **pm2 describe simon**                                     | Describe detailed process information                                            |
+| **pm2 startup**                                            | Displays the command to run to keep PM2 running after a reboot.                  |
+| **pm2 logs simon**                                         | Display process logs                                                             |
+| **pm2 env 0**                                              | Display environment variables for process. Use `pm2 ls` to get the process ID    |
+
+-What does Vite do?
+It's a command line interface, a fast development and build tool
+
+
+
 # CS 260 Notes
 
 [My startup - Simon](https://simon.cs260.click)
